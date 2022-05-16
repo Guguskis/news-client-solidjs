@@ -1,12 +1,12 @@
 import NewsCard from "../components/NewsCard";
 
 const singleNews = {
-  id: 74654,
+  id: 74838,
   title:
-    "Fascinating description of the communication history in a war zone. Dear Mods -please leave it up for a while. Patron has friends in the sky if needed.",
-  url: "https://old.reddit.com/r/ukraine/comments/ur19np/fascinating_description_of_the_communication/",
-  created: "2022-05-16T17:28:58Z",
-  subChannel: "ukraine",
+    "What are you doing with your hard wallets? Is there anywhere to place your cold storage which insures it's value?",
+  url: "https://old.reddit.com/r/CryptoCurrency/comments/ur66wa/what_are_you_doing_with_your_hard_wallets_is/",
+  created: "2022-05-16T21:11:16Z",
+  subChannel: "cryptocurrency",
   channel: "REDDIT",
 };
 

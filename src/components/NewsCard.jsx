@@ -2,11 +2,10 @@ import Card from "@suid/material/Card";
 import CardContent from "@suid/material/CardContent";
 import Typography from "@suid/material/Typography";
 import Link from "@suid/material/Link";
-import TimeAgo from 'javascript-time-ago'
-import { createSignal } from "solid-js";
+import createTimeAgo from "../util/createTimeAgo";
 
 const NewsCard = ({ news, sx }) => {
-  const [timeAgo] = createSignal(new TimeAgo())
+  const timeAgo = createTimeAgo({ date: news.created });
 
   return (
     <Card>
@@ -24,7 +23,7 @@ const NewsCard = ({ news, sx }) => {
           {news.channel === "REDDIT" ? "r/" + news.subChannel : news.subChannel}
         </Typography>
         <Typography variant="caption" sx={{ mb: 1.5 }} color="text.secondary">
-          {timeAgo().format(Date.parse(news.created))}
+          {timeAgo}
         </Typography>
       </CardContent>
     </Card>
