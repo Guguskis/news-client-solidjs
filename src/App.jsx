@@ -2,6 +2,7 @@ import logo from "./logo.svg";
 import styles from "./App.module.css";
 import { createSignal, createEffect, onCleanup } from "solid-js";
 import { createStore } from "solid-js/store";
+import Button from "@suid/material/Button";
 
 function createLocalStore(initState) {
   const [state, setState] = createStore(initState);
@@ -31,9 +32,9 @@ function App() {
         >
           Counter {store.counter}
         </a>
-        <button onClick={() => setStore({ counter: store.counter + 1 })}>
+        <Button variant="contained" onClick={() => setStore({ counter: store.counter + 1 })}>
           +
-        </button>
+        </Button>
       </header>
     </div>
   );
