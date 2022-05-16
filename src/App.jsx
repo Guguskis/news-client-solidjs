@@ -1,5 +1,9 @@
 import { createTheme, ThemeProvider } from "@suid/material/styles";
 import MainPage from "./pages/MainPage.jsx";
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en.json'
+
+TimeAgo.addDefaultLocale(en)
 
 const theme = createTheme({
   palette: {
