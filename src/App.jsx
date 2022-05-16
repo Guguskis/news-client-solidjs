@@ -29,10 +29,10 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn Solid ${store.counter}
+          Counter {store.counter}
         </a>
         <button onClick={() => setStore({ counter: store.counter + 1 })}>
-          HI
+          +
         </button>
       </header>
     </div>
