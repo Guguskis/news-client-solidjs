@@ -1,30 +1,53 @@
-import NewsCard from "../components/NewsCard";
+import LinearProgress from "@suid/material/LinearProgress";
+import MenuBarContainer from "../components/MenuBarContainer.jsx";
+import NewsCard from "../components/NewsCard.jsx";
+import useScrollableComponent from "../hooks/useScrollableComponent.jsx";
+import { createEffect, onCleanup } from "solid-js";
+import useNewsClient from "../hooks/useNewsClient.jsx";
 
-const singleNews = {
-  id: 74838,
-  title:
-    "What are you doing with your hard wallets? Is there anywhere to place your cold storage which insures it's value?",
-  url: "https://old.reddit.com/r/CryptoCurrency/comments/ur66wa/what_are_you_doing_with_your_hard_wallets_is/",
-  created: "2022-05-16T21:11:16Z",
-  subChannel: "cryptocurrency",
-  channel: "REDDIT",
-};
+const MainPage = () => {
+  const {
+    news,
+    loading,
+    loadMore,
+    subscribeSubreddits,
+    unsubscribeSubreddits,
+  } = useNewsClient();
 
-const news = [];
-for (let i = 0; i < 100; i++) {
-  news.push(singleNews);
-}
+  const [scroll, ScrollTargetComponent] = useScrollableComponent();
+  const scrolledRecently = false;
+  // const { scrolledRecently } = useScrollStopwatch({ seconds: 2 });
 
-function MainPage() {
-  const newsList = [];
+  const handleScroll = (e) => {
+    const target = e.target.scrollingElement;
+    const offset = target.scrollHeight - target.scrollTop;
+    const bottom = offset - target.clientHeight < 100;
+
+    if (bottom) {
+      loadMore();
+    }
+  };
+
+  createEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    onCleanup(() => window.removeEventListener("scroll", handleScroll));
+  });
+
+  createEffect(() => {
+    if (!loading && !scrolledRecently) {
+      scroll();
+    }
+  });
 
   return (
-    <div>
-      {news.map((news, index) => (
-        <NewsCard news={news} key={index} />
+    <MenuBarContainer>
+      <ScrollTargetComponent />
+      {news.map((news) => (
+        <NewsCard sx={{ mb: 1 }} news={news} key={news.id} />
       ))}
-    </div>
+      <LinearProgress sx={{ visibility: loading ? "visible" : "hidden" }} />
+    </MenuBarContainer>
   );
-}
+};
 
 export default MainPage;
