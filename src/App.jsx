@@ -6,7 +6,7 @@ import { createStore } from "solid-js/store";
 function createLocalStore(initState) {
   const [state, setState] = createStore(initState);
   if (localStorage.todos) setState(JSON.parse(localStorage.todos));
-  // createEffect(() => (localStorage.todos = JSON.stringify(state)));
+  createEffect(() => (localStorage.todos = JSON.stringify(state)));
   return [state, setState];
 }
 
@@ -15,10 +15,6 @@ function App() {
     counter: 0,
     users: ["Sally", "Matt"],
   });
-
-  onCleanup(() => {
-    console.log("STOP")
-  })
 
   return (
     <div class={styles.App}>
@@ -35,16 +31,7 @@ function App() {
         >
           Learn Solid ${store.counter}
         </a>
-        <button
-          onClick={() => {
-            setStore({ counter: store.counter + 1 });
-            console.log(store.counter);
-            // setStore(store => {
-            //   store.counter + 1;
-            //   return store;
-            // });
-          }}
-        >
+        <button onClick={() => setStore({ counter: store.counter + 1 })}>
           HI
         </button>
       </header>
