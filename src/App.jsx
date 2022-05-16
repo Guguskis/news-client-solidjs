@@ -1,42 +1,59 @@
-import logo from "./logo.svg";
-import styles from "./App.module.css";
-import { createSignal, createEffect, onCleanup } from "solid-js";
-import { createStore } from "solid-js/store";
-import Button from "@suid/material/Button";
+import { createTheme, ThemeProvider } from "@suid/material/styles";
+import MainPage from "./pages/MainPage.jsx";
 
-function createLocalStore(initState) {
-  const [state, setState] = createStore(initState);
-  if (localStorage.todos) setState(JSON.parse(localStorage.todos));
-  createEffect(() => (localStorage.todos = JSON.stringify(state)));
-  return [state, setState];
-}
+const theme = createTheme({
+  palette: {
+    type: "dark",
+    primary: {
+      main: "#90caf9",
+    },
+    text: {
+      primary: "#90caf9",
+      secondary: "#6098c6",
+      disabled: "#6098c6",
+    },
+    secondary: {
+      main: "#f48fb1",
+    },
+    background: {
+      default: "#212121",
+      paper: "#424242",
+    },
+  },
+});
+
+// toast.configure({
+//   position: "top-right",
+//   autoClose: 5000,
+// });
 
 function App() {
-  const [store, setStore] = createLocalStore({
-    counter: 0,
-    users: ["Sally", "Matt"],
-  });
-
   return (
-    <div class={styles.App}>
-      <header class={styles.header}>
-        <img src={logo} class={styles.logo} alt="logo" />
-        <p>
-          Edit <code>src/App.jsx</code> and save to reload.
-        </p>
-        <a
-          class={styles.link}
-          href="https://github.com/solidjs/solid"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Counter {store.counter}
-        </a>
-        <Button variant="contained" onClick={() => setStore({ counter: store.counter + 1 })}>
-          +
-        </Button>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      {/* <StompSessionProvider
+        url={"ws://86.100.240.140:9081/news/websocket"}
+        debug={(str) => {
+          console.debug("NEWS: " + str);
+        }}
+      > */}
+      {/* <LocalizationProvider dateAdapter={DateAdapter}> */}
+        <MainPage/>
+        {/* <ToastContainer /> */}
+        {/* <CssBaseline /> */}
+        {/* <Router> */}
+        {/* <Switch> */}
+        {/* <Route exact path="/" component={MainPage} /> */}
+        {/* <Route
+                exact
+                path="/subscriptions"
+                component={RedditSubscriptionForm}
+              /> */}
+        {/* <Route component={NotFoundPage}/> */}
+        {/* </Switch> */}
+        {/* </Router> */}
+      {/* </LocalizationProvider> */}
+      {/* </StompSessionProvider> */}
+    </ThemeProvider>
   );
 }
 
