@@ -38,7 +38,6 @@ function App() {
     <>
       <NewsProvider>
         <ThemeProvider theme={theme}>
-          {/* NewsProvider */}
           {/* StoreProvider */}
 
           {/* <StompSessionProvider
