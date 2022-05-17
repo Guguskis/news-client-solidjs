@@ -1,9 +1,10 @@
 import { createTheme, ThemeProvider } from "@suid/material/styles";
 import MainPage from "./pages/MainPage.jsx";
-import TimeAgo from 'javascript-time-ago'
-import en from 'javascript-time-ago/locale/en.json'
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en.json";
+import CssBaseline from "@suid/material/CssBaseline";
 
-TimeAgo.addDefaultLocale(en)
+TimeAgo.addDefaultLocale(en);
 
 const theme = createTheme({
   palette: {
@@ -33,20 +34,21 @@ const theme = createTheme({
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      {/* StoreProvider */}
-      {/* NewsProvider */}
+    <>
+      <ThemeProvider theme={theme}>
+        {/* StoreProvider */}
+        {/* NewsProvider */}
 
-      {/* <StompSessionProvider
+        {/* <StompSessionProvider
         url={"ws://86.100.240.140:9081/news/websocket"}
         debug={(str) => {
           console.debug("NEWS: " + str);
         }}
       > */}
-      {/* <LocalizationProvider dateAdapter={DateAdapter}> */}
-        <MainPage/>
+        {/* <LocalizationProvider dateAdapter={DateAdapter}> */}
+        <MainPage />
         {/* <ToastContainer /> */}
-        {/* <CssBaseline /> */}
+        <CssBaseline />
         {/* <Router> */}
         {/* <Switch> */}
         {/* <Route exact path="/" component={MainPage} /> */}
@@ -58,9 +60,10 @@ function App() {
         {/* <Route component={NotFoundPage}/> */}
         {/* </Switch> */}
         {/* </Router> */}
-      {/* </LocalizationProvider> */}
-      {/* </StompSessionProvider> */}
-    </ThemeProvider>
+        {/* </LocalizationProvider> */}
+        {/* </StompSessionProvider> */}
+      </ThemeProvider>
+    </>
   );
 }
 
