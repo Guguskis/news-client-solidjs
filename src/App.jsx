@@ -34,6 +34,9 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
+      {/* StoreProvider */}
+      {/* NewsProvider */}
+
       {/* <StompSessionProvider
         url={"ws://86.100.240.140:9081/news/websocket"}
         debug={(str) => {

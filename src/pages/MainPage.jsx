@@ -2,7 +2,7 @@ import LinearProgress from "@suid/material/LinearProgress";
 import MenuBarContainer from "../components/MenuBarContainer.jsx";
 import NewsCard from "../components/NewsCard.jsx";
 import useScrollableComponent from "../hooks/useScrollableComponent.jsx";
-import { createEffect, For, onCleanup } from "solid-js";
+import { createEffect, createResource, For, onCleanup } from "solid-js";
 import useNewsClient from "../hooks/useNewsClient.jsx";
 
 const MainPage = () => {
@@ -15,10 +15,10 @@ const MainPage = () => {
   } = useNewsClient();
 
   const [scroll, ScrollTargetComponent] = useScrollableComponent();
-  const scrolledRecently = false;
+  const scrolledRecently = true;
   // const { scrolledRecently } = useScrollStopwatch({ seconds: 2 });
 
-  const handleScroll = (e) => {
+  function handleScroll (e) {
     const target = e.target.scrollingElement;
     const offset = target.scrollHeight - target.scrollTop;
     const bottom = offset - target.clientHeight < 100;
@@ -34,7 +34,7 @@ const MainPage = () => {
   });
 
   createEffect(() => {
-    if (!loading && !scrolledRecently) {
+    if (!loading() && !scrolledRecently) {
       scroll();
     }
   });
@@ -42,12 +42,10 @@ const MainPage = () => {
   return (
     <MenuBarContainer>
       <ScrollTargetComponent />
-      <For each={news}>
-        {(newsItem) => (
-          <NewsCard key={newsItem.id} news={newsItem} sx={{ mb: 1 }} />
-        )}
+      <For each={news()}>
+        {(newsItem) => <NewsCard news={newsItem} sx={{ mb: 1 }} />}
       </For>
-      <LinearProgress sx={{ visibility: loading ? "visible" : "hidden" }} />
+      <LinearProgress sx={{ visibility: loading() ? "visible" : "hidden" }} />
     </MenuBarContainer>
   );
 };
