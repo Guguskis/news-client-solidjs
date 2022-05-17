@@ -5,6 +5,7 @@ import en from "javascript-time-ago/locale/en.json";
 import CssBaseline from "@suid/material/CssBaseline";
 import { NewsProvider } from "./hooks/useNews.jsx";
 import { Route, Routes } from "solid-app-router";
+import { Subreddits } from "./pages/Subreddits.jsx";
 
 TimeAgo.addDefaultLocale(en);
 
@@ -51,6 +52,7 @@ function App() {
           <CssBaseline />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/subreddits" element={<Subreddits />} />
           </Routes>
           {/* <ToastContainer /> */}
           {/* <Router> */}

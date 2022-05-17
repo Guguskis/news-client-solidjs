@@ -17,6 +17,7 @@ import ListItemIcon from "@suid/material/ListItemIcon";
 import { useTheme } from "@suid/material/styles";
 
 import { createSignal, mergeProps } from "solid-js";
+import { useNavigate } from "solid-app-router";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -29,8 +30,8 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 function MenuBar() {
   const [open, setOpen] = createSignal(false);
-
-  // const history = useHistory();
+  const navigate = useNavigate();
+  
   const theme = useTheme();
 
   const handleDrawerOpen = () => {
@@ -82,13 +83,13 @@ function MenuBar() {
         </DrawerHeader>
         <Divider />
         <List>
-          <ListItem button onClick={goToMainPage}>
+          <ListItem button onClick={navigateHome}>
             <ListItemIcon>
               <DynamicFeedIcon color="primary" />
             </ListItemIcon>
             <ListItemText primary="Feed" />
           </ListItem>
-          <ListItem button onClick={goToSubcriptions}>
+          <ListItem button onClick={navigateSubreddits}>
             <ListItemIcon>
               <FilterListIcon color="primary" />
             </ListItemIcon>
@@ -99,12 +100,12 @@ function MenuBar() {
     </Container>
   );
 
-  function goToMainPage() {
-    // history.push("/");
+  function navigateHome() {
+    navigate("/");
   }
 
-  function goToSubcriptions() {
-    // history.push("/subscriptions");
+  function navigateSubreddits() {
+    navigate("/subreddits");
   }
 }
 
