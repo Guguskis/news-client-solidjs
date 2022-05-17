@@ -3,7 +3,7 @@ import MenuBarContainer from "../components/MenuBarContainer.jsx";
 import NewsCard from "../components/NewsCard.jsx";
 import useScrollableComponent from "../hooks/useScrollableComponent.jsx";
 import { createEffect, createResource, For, onCleanup } from "solid-js";
-import { useNews } from "../hooks/useNewsClient.jsx";
+import { useNews } from "../hooks/useNews.jsx";
 
 const MainPage = () => {
   const [news, loading, loadMore] = useNews();

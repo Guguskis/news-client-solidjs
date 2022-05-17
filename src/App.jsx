@@ -3,7 +3,7 @@ import MainPage from "./pages/MainPage.jsx";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
 import CssBaseline from "@suid/material/CssBaseline";
-import { NewsProvider } from "./hooks/useNewsClient.jsx";
+import { NewsProvider } from "./hooks/useNews.jsx";
 
 TimeAgo.addDefaultLocale(en);
 
