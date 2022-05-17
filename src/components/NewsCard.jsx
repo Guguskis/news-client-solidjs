@@ -8,7 +8,7 @@ const NewsCard = ({ news, sx }) => {
   const timeAgo = createTimeAgo({ date: news.created });
 
   return (
-    <Card>
+    <Card sx={sx}>
       <CardContent sx={{ flexDirection: "column", display: "flex" }}>
         <Link
           variant="h5"
