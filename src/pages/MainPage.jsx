@@ -2,7 +2,7 @@ import LinearProgress from "@suid/material/LinearProgress";
 import MenuBarContainer from "../components/MenuBarContainer.jsx";
 import NewsCard from "../components/NewsCard.jsx";
 import useScrollableComponent from "../hooks/useScrollableComponent.jsx";
-import { createEffect, onCleanup } from "solid-js";
+import { createEffect, For, onCleanup } from "solid-js";
 import useNewsClient from "../hooks/useNewsClient.jsx";
 
 const MainPage = () => {
@@ -42,9 +42,11 @@ const MainPage = () => {
   return (
     <MenuBarContainer>
       <ScrollTargetComponent />
-      {news.map((news) => (
-        <NewsCard sx={{ mb: 1 }} news={news} key={news.id} />
-      ))}
+      <For each={news}>
+        {(newsItem) => (
+          <NewsCard key={newsItem.id} news={newsItem} sx={{ mb: 1 }} />
+        )}
+      </For>
       <LinearProgress sx={{ visibility: loading ? "visible" : "hidden" }} />
     </MenuBarContainer>
   );
