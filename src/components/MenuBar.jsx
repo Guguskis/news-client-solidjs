@@ -14,10 +14,11 @@ import ListItemText from "@suid/material/ListItemText";
 import styled from "@suid/system/styled";
 import Toolbar from "@suid/material/Toolbar";
 import ListItemIcon from "@suid/material/ListItemIcon";
+import Slide from "@suid/material/Slide";
 import { useTheme } from "@suid/material/styles";
-
-import { createSignal, mergeProps } from "solid-js";
+import { createEffect, createSignal, mergeProps, onCleanup } from "solid-js";
 import { useNavigate } from "solid-app-router";
+import useScrollTrigger from "../hooks/useScrollTrigger";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -28,10 +29,24 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-function MenuBar() {
+function HideOnScroll(props) {
+  const [direction] = useScrollTrigger();
+
+  return (
+    <Slide
+      appear={false}
+      direction="down"
+      in={direction() ?  direction() === "up" : true}
+    >
+      {props.children}
+    </Slide>
+  );
+}
+
+function MenuBar(props) {
   const [open, setOpen] = createSignal(false);
   const navigate = useNavigate();
-  
+
   const theme = useTheme();
 
   const handleDrawerOpen = () => {
@@ -45,20 +60,22 @@ function MenuBar() {
   const drawerWidth = 240;
 
   return (
-    <Container disableGutters maxWidth="false">
-      <AppBar position="relative" color="text" open={open()} sx={{ mb: 1 }}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={mergeProps({ mr: 2 }, () => open() && { display: "none" })}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+    <Container maxWidth="false" sx={{ mb: 10 }}>
+      <HideOnScroll {...props}>
+        <AppBar position="fixed" color="text" open={open()} sx={{ mb: 1 }}>
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={mergeProps({ mr: 2 }, () => open() && { display: "none" })}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+      </HideOnScroll>
       <Drawer
         sx={{
           width: drawerWidth,
