@@ -14,6 +14,7 @@ import ListItemText from "@suid/material/ListItemText";
 import styled from "@suid/system/styled";
 import Toolbar from "@suid/material/Toolbar";
 import ListItemIcon from "@suid/material/ListItemIcon";
+import { useTheme } from "@suid/material/styles";
 
 import { createSignal, mergeProps } from "solid-js";
 
@@ -30,8 +31,7 @@ function MenuBar() {
   const [open, setOpen] = createSignal(false);
 
   // const history = useHistory();
-  const theme = { direction: "ltr" };
-  // const theme = useTheme();
+  const theme = useTheme();
 
   const handleDrawerOpen = () => {
     setOpen(true);
