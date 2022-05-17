@@ -25,19 +25,22 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
+  // ...theme.mixins.toolbar,
   justifyContent: "flex-end",
 }));
 
 function HideOnScroll(props) {
   const [direction] = useScrollTrigger();
+  const [trigger, setTrigger] = createSignal(false);
+
+  createEffect(() => {
+    if (direction()) {
+      setTrigger(trigger => !trigger);
+    }
+  });
 
   return (
-    <Slide
-      appear={false}
-      direction="down"
-      in={direction() ?  direction() === "up" : true}
-    >
+    <Slide appear={false} direction="down" in={!trigger()}>
       {props.children}
     </Slide>
   );
