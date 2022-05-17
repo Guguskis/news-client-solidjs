@@ -13,7 +13,7 @@ export function useNews() {
 }
 
 export function NewsProvider(props) {
-  const [news, setNews] = createSignal(props.news || []);
+  const [news, setNews] = createSignal([]);
   const [loading, setLoading] = createSignal(false);
   const [nextPageToken, setNextPageToken] = createSignal(0);
 
