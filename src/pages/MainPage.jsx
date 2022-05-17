@@ -3,22 +3,16 @@ import MenuBarContainer from "../components/MenuBarContainer.jsx";
 import NewsCard from "../components/NewsCard.jsx";
 import useScrollableComponent from "../hooks/useScrollableComponent.jsx";
 import { createEffect, createResource, For, onCleanup } from "solid-js";
-import useNewsClient from "../hooks/useNewsClient.jsx";
+import { useNews } from "../hooks/useNewsClient.jsx";
 
 const MainPage = () => {
-  const {
-    news,
-    loading,
-    loadMore,
-    subscribeSubreddits,
-    unsubscribeSubreddits,
-  } = useNewsClient();
+  const [news, loading, loadMore] = useNews();
 
   const [scroll, ScrollTargetComponent] = useScrollableComponent();
   const scrolledRecently = true;
   // const { scrolledRecently } = useScrollStopwatch({ seconds: 2 });
 
-  function handleScroll (e) {
+  function handleScroll(e) {
     const target = e.target.scrollingElement;
     const offset = target.scrollHeight - target.scrollTop;
     const bottom = offset - target.clientHeight < 100;
@@ -26,7 +20,7 @@ const MainPage = () => {
     if (bottom) {
       loadMore();
     }
-  };
+  }
 
   createEffect(() => {
     window.addEventListener("scroll", handleScroll);

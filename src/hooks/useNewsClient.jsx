@@ -1,7 +1,19 @@
-import { createEffect, createResource, createSignal } from "solid-js";
+import {
+  createContext,
+  createEffect,
+  createResource,
+  createSignal,
+  useContext,
+} from "solid-js";
 
-function useNewsClient() {
-  const [news, setNews] = createSignal([]);
+const NewsContext = createContext();
+
+export function useNews() {
+  return useContext(NewsContext);
+}
+
+export function NewsProvider(props) {
+  const [news, setNews] = createSignal(props.news || []);
   const [loading, setLoading] = createSignal(false);
   const [nextPageToken, setNextPageToken] = createSignal(0);
 
@@ -12,7 +24,7 @@ function useNewsClient() {
     );
     return await response.json();
   });
-
+  
   createEffect(() => {
     if (response()) {
       setNews(uniqueByIdMerger(response().news));
@@ -26,19 +38,26 @@ function useNewsClient() {
     refetch();
   }
 
-  function subscribeSubreddits() {}
-  function unsubscribeSubreddits() {}
+  function subscribeSubreddits() {
+      throw new Error("Not implemented");
+  }
 
-  return {
+  function unsubscribeSubreddits() {
+      throw new Error("Not implemented");
+  }
+
+  const store = [
     news,
     loading,
     loadMore,
     subscribeSubreddits,
     unsubscribeSubreddits,
-  };
-}
+  ];
 
-export default useNewsClient;
+  return (
+    <NewsContext.Provider value={store}>{props.children}</NewsContext.Provider>
+  );
+}
 
 function uniqueByIdMerger(newItems) {
   return (array) => {
