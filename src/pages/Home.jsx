@@ -5,7 +5,7 @@ import useScrollableComponent from "../hooks/useScrollableComponent.jsx";
 import { createEffect, createResource, For, onCleanup } from "solid-js";
 import { useNews } from "../hooks/useNews.jsx";
 
-const MainPage = () => {
+const Home = () => {
   const [news, loading, loadMore] = useNews();
 
   const [scroll, ScrollTargetComponent] = useScrollableComponent();
@@ -44,4 +44,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default Home;

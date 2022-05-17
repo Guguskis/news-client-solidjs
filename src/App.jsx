@@ -1,9 +1,10 @@
 import { createTheme, ThemeProvider } from "@suid/material/styles";
-import MainPage from "./pages/MainPage.jsx";
+import Home from "./pages/Home.jsx";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
 import CssBaseline from "@suid/material/CssBaseline";
 import { NewsProvider } from "./hooks/useNews.jsx";
+import { Route, Routes } from "solid-app-router";
 
 TimeAgo.addDefaultLocale(en);
 
@@ -47,9 +48,11 @@ function App() {
         }}
       > */}
           {/* <LocalizationProvider dateAdapter={DateAdapter}> */}
-          <MainPage />
-          {/* <ToastContainer /> */}
           <CssBaseline />
+          <Routes>
+            <Route path="/" element={<Home />} />
+          </Routes>
+          {/* <ToastContainer /> */}
           {/* <Router> */}
           {/* <Switch> */}
           {/* <Route exact path="/" component={MainPage} /> */}
