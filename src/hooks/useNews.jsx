@@ -3,6 +3,7 @@ import {
   createEffect,
   createResource,
   createSignal,
+  onCleanup,
   useContext,
 } from "solid-js";
 import Stomp from "stompjs";
@@ -48,16 +49,18 @@ export function NewsProvider(props) {
 
   createEffect(() => {
     if (!wsConnected()) return;
-    
-    websocket().subscribe("/user/topic/news", (message) => {
-      const newsItem = JSON.parse(message.body);
-      setNews((news) => [newsItem, ...news]);
-    });
+
+    websocket().subscribe("/user/topic/news", onSubscriptionMessage);
   });
 
   function loadMore() {
     if (loading()) return;
     refetch();
+  }
+
+  function onSubscriptionMessage(message) {
+    const newsItem = JSON.parse(message.body);
+    setNews((news) => [newsItem, ...news]);
   }
 
   function subscribeSubreddits() {
