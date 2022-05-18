@@ -62,18 +62,26 @@ function MenuBar(props) {
   const navigate = useNavigate();
   const theme = useTheme();
 
-  const handleDrawerOpen = () => {
+  function handleDrawerOpen () {
     setOpen(true);
   };
 
-  const handleDrawerClose = () => {
+  function handleDrawerClose() {
     setOpen(false);
   };
 
+  function navigateHome() {
+    navigate("/");
+  }
+
+  function navigateSubreddits() {
+    navigate("/subreddits");
+  }
+
   return (
-    <Container maxWidth="false" sx={{ mb: 10 }}>
-      <HideOnScroll {...props}>
-        <AppBar position="fixed" color="text" open={open()} sx={{ mb: 1 }}>
+    <Container maxWidth="false" sx={{ pb: 10}}>
+      <HideOnScroll >
+        <AppBar position="fixed" color="background" open={open()} >
           <Toolbar>
             <IconButton
               color="inherit"
@@ -115,14 +123,6 @@ function MenuBar(props) {
       </StyledDrawer>
     </Container>
   );
-
-  function navigateHome() {
-    navigate("/");
-  }
-
-  function navigateSubreddits() {
-    navigate("/subreddits");
-  }
 }
 
 export default MenuBar;
