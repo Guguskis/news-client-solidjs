@@ -6,6 +6,7 @@ import {
   useContext,
 } from "solid-js";
 import Stomp from "stompjs";
+import { createMutable } from "solid-js/store";
 
 const NewsContext = createContext();
 
@@ -17,6 +18,7 @@ export function NewsProvider(props) {
   const [news, setNews] = createSignal([]);
   const [loading, setLoading] = createSignal(false);
   const [nextPageToken, setNextPageToken] = createSignal(0);
+  const [wsConnected, setWsConnected] = createSignal(false);
 
   const [response, { refetch }] = createResource(async () => {
     setLoading(true);
@@ -26,7 +28,7 @@ export function NewsProvider(props) {
     return await response.json();
   });
 
-  const [websocket] = createSignal(
+  const [websocket, setWebsocket] = createSignal(
     Stomp.client("ws://86.100.240.140:9081/news/websocket")
   );
 
@@ -38,18 +40,19 @@ export function NewsProvider(props) {
     }
   });
 
-  function subscribeNews(frame) {
-    websocket().subscribe("/user/topic/news", (message) => {
-      // todo stale closure
-      const newsItem = JSON.parse(message.body);
-      console.log("WEBSOCEKT NEWS", newsItem);
-      setNews(uniqueByIdMerger([newsItem]));
+  createEffect(() => {
+    websocket().connect({}, () => {
+      setWsConnected(true);
     });
-  }
+  });
 
   createEffect(() => {
-    if (!websocket()) return;
-    websocket().connect({}, subscribeNews);
+    if (!wsConnected()) return;
+    
+    websocket().subscribe("/user/topic/news", (message) => {
+      const newsItem = JSON.parse(message.body);
+      setNews((news) => [newsItem, ...news]);
+    });
   });
 
   function loadMore() {
