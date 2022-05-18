@@ -5,6 +5,7 @@ import {
   createSignal,
   useContext,
 } from "solid-js";
+import Stomp from "stompjs";
 
 const NewsContext = createContext();
 
@@ -24,7 +25,11 @@ export function NewsProvider(props) {
     );
     return await response.json();
   });
-  
+
+  const [websocket] = createSignal(
+    Stomp.client("ws://86.100.240.140:9081/news/websocket")
+  );
+
   createEffect(() => {
     if (response()) {
       setNews(uniqueByIdMerger(response().news));
@@ -33,17 +38,31 @@ export function NewsProvider(props) {
     }
   });
 
+  function subscribeNews(frame) {
+    websocket().subscribe("/user/topic/news", (message) => {
+      // todo stale closure
+      const newsItem = JSON.parse(message.body);
+      console.log("WEBSOCEKT NEWS", newsItem);
+      setNews(uniqueByIdMerger([newsItem]));
+    });
+  }
+
+  createEffect(() => {
+    if (!websocket()) return;
+    websocket().connect({}, subscribeNews);
+  });
+
   function loadMore() {
     if (loading()) return;
     refetch();
   }
 
   function subscribeSubreddits() {
-      throw new Error("Not implemented");
+    throw new Error("Not implemented");
   }
 
   function unsubscribeSubreddits() {
-      throw new Error("Not implemented");
+    throw new Error("Not implemented");
   }
 
   const store = [
