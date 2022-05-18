@@ -29,18 +29,29 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
+const StyledDrawer = styled(Drawer)(({ theme }) => ({
+  width: 240,
+  flexShrink: 0,
+  "& .MuiDrawer-paper": {
+    width: 240,
+    boxSizing: "border-box",
+  },
+}));
+
 function HideOnScroll(props) {
   const [direction] = useScrollTrigger();
-  const [trigger, setTrigger] = createSignal(false);
+  const [visible, setVisible] = createSignal(true);
 
   createEffect(() => {
-    if (direction()) {
-      setTrigger(trigger => !trigger);
+    if (direction() === "down") {
+      setVisible(false);
+    } else if (direction() === "up") {
+      setVisible(true);
     }
   });
 
   return (
-    <Slide appear={false} direction="down" in={!trigger()}>
+    <Slide appear={false} direction="down" in={visible()}>
       {props.children}
     </Slide>
   );
@@ -49,7 +60,6 @@ function HideOnScroll(props) {
 function MenuBar(props) {
   const [open, setOpen] = createSignal(false);
   const navigate = useNavigate();
-
   const theme = useTheme();
 
   const handleDrawerOpen = () => {
@@ -59,8 +69,6 @@ function MenuBar(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-  const drawerWidth = 240;
 
   return (
     <Container maxWidth="false" sx={{ mb: 10 }}>
@@ -79,44 +87,32 @@ function MenuBar(props) {
           </Toolbar>
         </AppBar>
       </HideOnScroll>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            boxSizing: "border-box",
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open()}
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon color="primary" />
-            ) : (
-              <ChevronRightIcon color="primary" />
-            )}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          <ListItem button onClick={navigateHome}>
-            <ListItemIcon>
-              <DynamicFeedIcon color="primary" />
-            </ListItemIcon>
-            <ListItemText primary="Feed" />
-          </ListItem>
-          <ListItem button onClick={navigateSubreddits}>
-            <ListItemIcon>
-              <FilterListIcon color="primary" />
-            </ListItemIcon>
-            <ListItemText primary="Subreddits" />
-          </ListItem>
-        </List>
-      </Drawer>
+      <StyledDrawer variant="persistent" anchor="left" open={open()}>
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === "ltr" ? (
+                <ChevronLeftIcon color="primary" />
+              ) : (
+                <ChevronRightIcon color="primary" />
+              )}
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+          <List>
+            <ListItem button onClick={navigateHome}>
+              <ListItemIcon>
+                <DynamicFeedIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary="Feed" />
+            </ListItem>
+            <ListItem button onClick={navigateSubreddits}>
+              <ListItemIcon>
+                <FilterListIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary="Subreddits" />
+            </ListItem>
+          </List>
+      </StyledDrawer>
     </Container>
   );
 
