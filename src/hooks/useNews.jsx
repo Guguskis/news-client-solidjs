@@ -6,6 +6,7 @@ import {
   useContext,
 } from "solid-js";
 import Stomp from "stompjs";
+import { createLocalSignal } from "../util/util";
 
 const NewsContext = createContext();
 
@@ -18,13 +19,19 @@ export function NewsProvider(props) {
   const [loading, setLoading] = createSignal(false);
   const [nextPageToken, setNextPageToken] = createSignal(0);
   const [wsConnected, setWsConnected] = createSignal(false);
-  const [subreddits, setSubreddits] = createSignal([]);
+  const [subreddits, setSubreddits] = createLocalSignal("subreddits", []);
 
   const [response, { refetch }] = createResource(async () => {
+    if (nextPageToken() === null) return;
+
     setLoading(true);
-    const response = await fetch(
-      `http://86.100.240.140:9081/api/news?pageToken=${nextPageToken()}&pageSize=10`
-    );
+    const url = new URL(`http://86.100.240.140:9081/api/news`);
+
+    url.searchParams.set("pageToken", nextPageToken());
+    url.searchParams.set("subChannels", subreddits().join(","));
+    url.searchParams.set("pageSize", 20);
+
+    const response = await fetch(url);
     return await response.json();
   });
 
