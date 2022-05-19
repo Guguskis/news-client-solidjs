@@ -3,11 +3,9 @@ import {
   createEffect,
   createResource,
   createSignal,
-  onCleanup,
   useContext,
 } from "solid-js";
 import Stomp from "stompjs";
-import { createMutable } from "solid-js/store";
 
 const NewsContext = createContext();
 
@@ -20,6 +18,7 @@ export function NewsProvider(props) {
   const [loading, setLoading] = createSignal(false);
   const [nextPageToken, setNextPageToken] = createSignal(0);
   const [wsConnected, setWsConnected] = createSignal(false);
+  const [subreddits, setSubreddits] = createSignal([]);
 
   const [response, { refetch }] = createResource(async () => {
     setLoading(true);
@@ -42,16 +41,27 @@ export function NewsProvider(props) {
   });
 
   createEffect(() => {
-    websocket().connect({}, () => {
-      setWsConnected(true);
-    });
+    websocket().connect({}, onWebsocketConnect);
   });
 
   createEffect(() => {
     if (!wsConnected()) return;
-
     websocket().subscribe("/user/topic/news", onSubscriptionMessage);
   });
+
+  function onWebsocketConnect() {
+    setWsConnected(true);
+    sendInitialSubscription(); // todo unsure if subreddits() gets stale if we load data from localStorage
+  }
+
+  function sendInitialSubscription() {
+    const message = {
+      action: "SET",
+      subreddits: subreddits(),
+    };
+
+    websocket().send("/app/queue/news/reddit", {}, JSON.stringify(message));
+  }
 
   function loadMore() {
     if (loading()) return;
@@ -63,12 +73,30 @@ export function NewsProvider(props) {
     setNews((news) => [newsItem, ...news]);
   }
 
-  function subscribeSubreddits() {
-    throw new Error("Not implemented");
+  function subscribeSubreddits(subredditsToSubscribe) {
+    // todo validate if subreddit exists
+
+    const message = {
+      action: "SUBSCRIBE",
+      subreddits: subredditsToSubscribe,
+    };
+
+    websocket().send("/app/queue/news/reddit", {}, JSON.stringify(message));
+    setSubreddits([...subredditsToSubscribe, ...subreddits()]);
   }
 
-  function unsubscribeSubreddits() {
-    throw new Error("Not implemented");
+  function unsubscribeSubreddits(subredditsToUnsubscribe) {
+    const message = {
+      action: "UNSUBSCRIBE",
+      subreddits: subredditsToUnsubscribe,
+    };
+
+    websocket().send("/app/queue/news/reddit", {}, JSON.stringify(message));
+    setSubreddits((subreddits) =>
+      subreddits.filter(
+        (subreddit) => !subredditsToUnsubscribe.includes(subreddit)
+      )
+    );
   }
 
   const store = [
@@ -77,6 +105,7 @@ export function NewsProvider(props) {
     loadMore,
     subscribeSubreddits,
     unsubscribeSubreddits,
+    subreddits,
   ];
 
   return (
