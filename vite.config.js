@@ -9,5 +9,6 @@ export default defineConfig({
   },
   server: {
     port: 9080,
+    host: '0.0.0.0',
   }
 });
