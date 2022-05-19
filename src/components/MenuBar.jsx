@@ -50,10 +50,12 @@ function HideOnScroll(props) {
     }
   });
 
-  return (
+  return props.enabled ? (
     <Slide appear={false} direction="down" in={visible()}>
       {props.children}
     </Slide>
+  ) : (
+    props.children
   );
 }
 
@@ -62,13 +64,13 @@ function MenuBar(props) {
   const navigate = useNavigate();
   const theme = useTheme();
 
-  function handleDrawerOpen () {
+  function handleDrawerOpen() {
     setOpen(true);
-  };
+  }
 
   function handleDrawerClose() {
     setOpen(false);
-  };
+  }
 
   function navigateHome() {
     navigate("/");
@@ -79,9 +81,9 @@ function MenuBar(props) {
   }
 
   return (
-    <Container maxWidth="false" sx={{ pb: 10}}>
-      <HideOnScroll >
-        <AppBar position="fixed" color="background" open={open()} >
+    <Container maxWidth="false" sx={{ pb: 10 }}>
+      <HideOnScroll enabled={props.hideOnScroll}>
+        <AppBar position="fixed" color="background" open={open()}>
           <Toolbar>
             <IconButton
               color="inherit"
@@ -96,30 +98,30 @@ function MenuBar(props) {
         </AppBar>
       </HideOnScroll>
       <StyledDrawer variant="persistent" anchor="left" open={open()}>
-          <DrawerHeader>
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "ltr" ? (
-                <ChevronLeftIcon color="primary" />
-              ) : (
-                <ChevronRightIcon color="primary" />
-              )}
-            </IconButton>
-          </DrawerHeader>
-          <Divider />
-          <List>
-            <ListItem button onClick={navigateHome}>
-              <ListItemIcon>
-                <DynamicFeedIcon color="primary" />
-              </ListItemIcon>
-              <ListItemText primary="Feed" />
-            </ListItem>
-            <ListItem button onClick={navigateSubreddits}>
-              <ListItemIcon>
-                <FilterListIcon color="primary" />
-              </ListItemIcon>
-              <ListItemText primary="Subreddits" />
-            </ListItem>
-          </List>
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === "ltr" ? (
+              <ChevronLeftIcon color="primary" />
+            ) : (
+              <ChevronRightIcon color="primary" />
+            )}
+          </IconButton>
+        </DrawerHeader>
+        <Divider />
+        <List>
+          <ListItem button onClick={navigateHome}>
+            <ListItemIcon>
+              <DynamicFeedIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Feed" />
+          </ListItem>
+          <ListItem button onClick={navigateSubreddits}>
+            <ListItemIcon>
+              <FilterListIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Subreddits" />
+          </ListItem>
+        </List>
       </StyledDrawer>
     </Container>
   );

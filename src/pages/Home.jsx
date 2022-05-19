@@ -34,7 +34,7 @@ const Home = () => {
   });
 
   return (
-    <MenuBarContainer>
+    <MenuBarContainer onScrollHideMenuBar={true}>
       <ScrollTargetComponent />
       <For each={news()}>
         {(newsItem) => <NewsCard news={newsItem} sx={{ mb: 1 }} />}

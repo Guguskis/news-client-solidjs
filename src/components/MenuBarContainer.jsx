@@ -1,11 +1,11 @@
 import Container from "@suid/material/Container";
 import MenuBar from "./MenuBar.jsx";
 
-function MenuBarContainer(params) {
+function MenuBarContainer(props) {
   return (
     <Container sx={{ pt: 0 }}>
-      <MenuBar />
-      {params.children}
+      <MenuBar hideOnScroll={props.onScrollHideMenuBar}/>
+      {props.children}
     </Container>
   );
 }
