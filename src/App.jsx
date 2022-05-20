@@ -1,35 +1,14 @@
 import CssBaseline from "@suid/material/CssBaseline";
-import { createTheme, ThemeProvider } from "@suid/material/styles";
+import { ThemeProvider } from "@suid/material/styles";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
 import { Route, Routes } from "solid-app-router";
+import theme from "./config/theme.jsx";
 import { NewsProvider } from "./hooks/useNews.jsx";
 import Home from "./pages/Home.jsx";
 import { Subreddits } from "./pages/Subreddits.jsx";
 
 TimeAgo.addDefaultLocale(en);
-
-const theme = createTheme({
-  palette: {
-    type: "dark",
-    primary: {
-      main: "#90caf9",
-    },
-    text: {
-      primary: "#90caf9",
-      secondary: "#6098c6",
-      disabled: "#6098c6",
-    },
-    secondary: {
-      main: "#f48fb1",
-    },
-    background: {
-      main: "#424242",
-      default: "#212121",
-      paper: "#424242",
-    },
-  },
-});
 
 // toast.configure({
 //   position: "top-right",
@@ -41,7 +20,6 @@ function App() {
     <>
       <NewsProvider>
         <ThemeProvider theme={theme}>
-          {/* StoreProvider */}
 
           {/* <StompSessionProvider
         url={"ws://86.100.240.140:9081/news/websocket"}
