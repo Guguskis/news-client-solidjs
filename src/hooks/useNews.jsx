@@ -5,8 +5,8 @@ import {
   createSignal,
   useContext
 } from "solid-js";
-import Stomp from "stompjs";
 import { createLocalSignal } from "../util/util";
+import useRedditWebsocket from "./useWebsocket";
 
 const NewsContext = createContext();
 
@@ -18,7 +18,6 @@ export function NewsProvider(props) {
   const [news, setNews] = createSignal([]);
   const [loading, setLoading] = createSignal(false);
   const [nextPageToken, setNextPageToken] = createSignal(0);
-  const [wsConnected, setWsConnected] = createSignal(false);
   const [subreddits, setSubreddits] = createLocalSignal("subreddits", []);
 
   const [response, { refetch }] = createResource(async () => {
@@ -35,9 +34,7 @@ export function NewsProvider(props) {
     return await response.json();
   });
 
-  const [websocket, setWebsocket] = createSignal(
-    Stomp.client("ws://86.100.240.140:9081/news/websocket")
-  );
+  const { send: sendReddit } = useRedditWebsocket(onConnect, onMessage);
 
   createEffect(() => {
     if (response()) {
@@ -47,27 +44,11 @@ export function NewsProvider(props) {
     }
   });
 
-  createEffect(() => {
-    websocket().connect({}, onWebsocketConnect);
-  });
-
-  createEffect(() => {
-    if (!wsConnected()) return;
-    websocket().subscribe("/user/topic/news", onSubscriptionMessage);
-  });
-
-  function onWebsocketConnect() {
-    setWsConnected(true);
-    sendInitialSubscription(); // todo unsure if subreddits() gets stale if we load data from localStorage
-  }
-
-  function sendInitialSubscription() {
-    const message = {
+  function onConnect() {
+    sendReddit({
       action: "SET",
       subreddits: subreddits(),
-    };
-
-    websocket().send("/app/queue/news/reddit", {}, JSON.stringify(message));
+    });
   }
 
   function loadMore() {
@@ -75,30 +56,27 @@ export function NewsProvider(props) {
     refetch();
   }
 
-  function onSubscriptionMessage(message) {
-    const newsItem = JSON.parse(message.body);
+  function onMessage(newsItem) {
     setNews((news) => [newsItem, ...news]);
   }
 
   function subscribeSubreddits(subredditsToSubscribe) {
     // todo validate if subreddit exists
 
-    const message = {
+    sendReddit({
       action: "SUBSCRIBE",
       subreddits: subredditsToSubscribe,
-    };
+    });
 
-    websocket().send("/app/queue/news/reddit", {}, JSON.stringify(message));
     setSubreddits([...subredditsToSubscribe, ...subreddits()]);
   }
 
   function unsubscribeSubreddits(subredditsToUnsubscribe) {
-    const message = {
+    sendReddit(message = {
       action: "UNSUBSCRIBE",
       subreddits: subredditsToUnsubscribe,
-    };
-
-    websocket().send("/app/queue/news/reddit", {}, JSON.stringify(message));
+    });
+    
     setSubreddits((subreddits) =>
       subreddits.filter(
         (subreddit) => !subredditsToUnsubscribe.includes(subreddit)
