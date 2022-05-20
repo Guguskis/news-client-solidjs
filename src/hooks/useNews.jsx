@@ -3,7 +3,7 @@ import {
   createEffect,
   createResource,
   createSignal,
-  useContext,
+  useContext
 } from "solid-js";
 import Stomp from "stompjs";
 import { createLocalSignal } from "../util/util";

@@ -1,16 +1,15 @@
+import AddCircleIcon from "@suid/icons-material/AddCircle";
+import DeleteIcon from "@suid/icons-material/Delete";
 import Grid from "@suid/material/Grid";
 import IconButton from "@suid/material/IconButton";
-import Input from "@suid/material/Input";
 import List from "@suid/material/List";
 import ListItem from "@suid/material/ListItem";
 import ListItemText from "@suid/material/ListItemText";
 import TextField from "@suid/material/TextField";
-import MenuBarContainer from "../components/MenuBarContainer";
 import { createSignal } from "solid-js";
+import MenuBarContainer from "../components/MenuBarContainer";
 import { useNews } from "../hooks/useNews";
 
-import AddCircleIcon from "@suid/icons-material/AddCircle";
-import DeleteIcon from "@suid/icons-material/Delete";
 
 export function Subreddits() {
   const [

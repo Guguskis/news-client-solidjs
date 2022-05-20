@@ -1,10 +1,10 @@
+import CssBaseline from "@suid/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@suid/material/styles";
-import Home from "./pages/Home.jsx";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
-import CssBaseline from "@suid/material/CssBaseline";
-import { NewsProvider } from "./hooks/useNews.jsx";
 import { Route, Routes } from "solid-app-router";
+import { NewsProvider } from "./hooks/useNews.jsx";
+import Home from "./pages/Home.jsx";
 import { Subreddits } from "./pages/Subreddits.jsx";
 
 TimeAgo.addDefaultLocale(en);

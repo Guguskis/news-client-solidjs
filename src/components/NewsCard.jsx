@@ -1,7 +1,7 @@
 import Card from "@suid/material/Card";
 import CardContent from "@suid/material/CardContent";
-import Typography from "@suid/material/Typography";
 import Link from "@suid/material/Link";
+import Typography from "@suid/material/Typography";
 import createTimeAgo from "../util/createTimeAgo";
 
 const NewsCard = ({ news, sx }) => {

@@ -1,9 +1,9 @@
 import LinearProgress from "@suid/material/LinearProgress";
+import { createEffect, For, onCleanup } from "solid-js";
 import MenuBarContainer from "../components/MenuBarContainer.jsx";
 import NewsCard from "../components/NewsCard.jsx";
-import useScrollableComponent from "../hooks/useScrollableComponent.jsx";
-import { createEffect, createResource, For, onCleanup } from "solid-js";
 import { useNews } from "../hooks/useNews.jsx";
+import useScrollableComponent from "../hooks/useScrollableComponent.jsx";
 
 const Home = () => {
   const [news, loading, loadMore] = useNews();

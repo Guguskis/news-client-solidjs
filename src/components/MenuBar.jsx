@@ -3,21 +3,21 @@ import ChevronRightIcon from "@suid/icons-material/ChevronRight";
 import DynamicFeedIcon from "@suid/icons-material/DynamicFeed";
 import FilterListIcon from "@suid/icons-material/FilterList";
 import MenuIcon from "@suid/icons-material/Menu";
-import IconButton from "@suid/material/IconButton";
-import Drawer from "@suid/material/Drawer";
 import AppBar from "@suid/material/AppBar";
-import Divider from "@suid/material/Divider";
 import Container from "@suid/material/Container";
+import Divider from "@suid/material/Divider";
+import Drawer from "@suid/material/Drawer";
+import IconButton from "@suid/material/IconButton";
 import List from "@suid/material/List";
 import ListItem from "@suid/material/ListItem";
-import ListItemText from "@suid/material/ListItemText";
-import styled from "@suid/system/styled";
-import Toolbar from "@suid/material/Toolbar";
 import ListItemIcon from "@suid/material/ListItemIcon";
+import ListItemText from "@suid/material/ListItemText";
 import Slide from "@suid/material/Slide";
 import { useTheme } from "@suid/material/styles";
-import { createEffect, createSignal, mergeProps, onCleanup } from "solid-js";
+import Toolbar from "@suid/material/Toolbar";
+import styled from "@suid/system/styled";
 import { useNavigate } from "solid-app-router";
+import { createEffect, createSignal, mergeProps } from "solid-js";
 import useScrollTrigger from "../hooks/useScrollTrigger";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
