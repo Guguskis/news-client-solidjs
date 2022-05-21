@@ -1,13 +1,13 @@
-const useScrollableComponent = () => {
+const useScrollableTarget = () => {
     let scrollTargetRef;
 
-    const scrollToTarget = () => {
+    const scroll = () => {
         scrollTargetRef.scrollIntoView({ behavior: "smooth" });
     };
 
     const TargetComponent = () => <div ref={scrollTargetRef} />;
 
-    return [scrollToTarget, TargetComponent];
+    return [scroll, TargetComponent];
 };
 
-export default useScrollableComponent;
+export default useScrollableTarget;

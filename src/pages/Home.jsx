@@ -3,12 +3,12 @@ import { createEffect, For, onCleanup } from "solid-js";
 import MenuBarContainer from "../components/MenuBarContainer.jsx";
 import NewsCard from "../components/NewsCard.jsx";
 import { useNews } from "../hooks/useNews.jsx";
-import useScrollableComponent from "../hooks/useScrollableComponent.jsx";
+import useScrollableTarget from "../hooks/useScrollableTarget.jsx";
 
 const Home = () => {
   const { news, loading, loadMore } = useNews();
 
-  const [scroll, ScrollTargetComponent] = useScrollableComponent();
+  const [scroll, ScrollTarget] = useScrollableTarget();
   const scrolledRecently = true;
   // const { scrolledRecently } = useScrollStopwatch({ seconds: 2 });
 
@@ -35,7 +35,7 @@ const Home = () => {
 
   return (
     <MenuBarContainer onScrollHideMenuBar={true}>
-      <ScrollTargetComponent />
+      <ScrollTarget />
       <For each={news()}>
         {(newsItem) => <NewsCard news={newsItem} sx={{ mb: 1 }} />}
       </For>
