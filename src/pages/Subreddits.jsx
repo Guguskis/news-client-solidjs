@@ -10,13 +10,8 @@ import { createSignal } from "solid-js";
 import MenuBarContainer from "../components/MenuBarContainer";
 import { useNews } from "../hooks/useNews";
 
-
 export default function Subreddits() {
-  const {
-    subscribeReddit,
-    unsubscribeReddit,
-    subreddits,
-  } = useNews();
+  const { subscribeReddit, unsubscribeReddit, subreddits } = useNews();
 
   const [subredditInput, setSubredditInput] = createSignal("");
   const [subredditError, setSubredditError] = createSignal(null);
@@ -55,7 +50,6 @@ export default function Subreddits() {
   return (
     <MenuBarContainer>
       <Grid item xs={12} md={6}>
-        {/* todo force text and button in the same row */}
         <TextField
           sx={{ mb: 1 }}
           variant="outlined"
@@ -67,7 +61,11 @@ export default function Subreddits() {
           helperText={subredditError()}
         />
 
-        <IconButton color="primary" onClick={handleSubredditSubmit}>
+        <IconButton
+          color="primary"
+          onClick={handleSubredditSubmit}
+          sx={{ mt: 1 }}
+        >
           <AddCircleIcon />
         </IconButton>
 
