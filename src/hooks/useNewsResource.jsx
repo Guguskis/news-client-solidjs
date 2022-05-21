@@ -31,7 +31,11 @@ function useNewsResource(subChannels, onResponse) {
     refetch();
   }
 
-  return { loading, loadMore  };
+  function resetQuery() {
+    setNextPageToken(0);
+  }
+
+  return { loading, loadMore, resetQuery };
 }
 
 export default useNewsResource;

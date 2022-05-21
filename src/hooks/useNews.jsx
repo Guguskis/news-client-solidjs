@@ -13,15 +13,12 @@ export function NewsProvider(props) {
   const [news, setNews] = createSignal([]);
   const [subreddits, setSubreddits] = createLocalSignal("subreddits", []);
 
-  const { loading, loadMore } = useNewsResource(
+  const { loading, loadMore, resetQuery } = useNewsResource(
     subreddits,
     onNewsResourceResponse
   );
 
-  const { sendMessage } = useNewsWebsocket(
-    onConnect,
-    onNewsMessage
-  );
+  const { sendMessage } = useNewsWebsocket(onConnect, onNewsMessage);
 
   function onNewsResourceResponse(news) {
     setNews(uniqueByIdMerger(news));
@@ -49,6 +46,8 @@ export function NewsProvider(props) {
     });
 
     setSubreddits([...subredditsSub, ...subreddits()]);
+
+    reloadNews();
   }
 
   function unsubscribeReddit(subredditsUnsub) {
@@ -59,10 +58,16 @@ export function NewsProvider(props) {
     });
 
     setSubreddits((subreddits) =>
-      subreddits.filter(
-        (subreddit) => !subredditsUnsub.includes(subreddit)
-      )
+      subreddits.filter((subreddit) => !subredditsUnsub.includes(subreddit))
     );
+
+    reloadNews();
+  }
+
+  function reloadNews() {
+    setNews([]);
+    resetQuery();
+    loadMore();
   }
 
   const store = {
