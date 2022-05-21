@@ -1,12 +1,12 @@
-import { createEffect, createSignal } from "solid-js";
+import { createEffect, createSignal, onCleanup } from "solid-js";
 
 function useScrollTrigger() {
   const [direction, setDirection] = createSignal();
   const [position, setPosition] = createSignal(0);
 
   createEffect(() => {
-    window.addEventListener("scroll", handleScrollDocument);
-    return () => window.removeEventListener("scroll", handleScrollDocument);
+    const callback = window.addEventListener("scroll", handleScrollDocument);
+    onCleanup(() => window.removeEventListener("scroll", callback));
   });
 
   function handleScrollDocument() {
