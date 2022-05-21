@@ -23,8 +23,8 @@ const Home = () => {
   }
 
   createEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    onCleanup(() => window.removeEventListener("scroll", handleScroll));
+    const callback = window.addEventListener("scroll", handleScroll);
+    onCleanup(() => window.removeEventListener("scroll", callback));
   });
 
   createEffect(() => {
