@@ -1,7 +1,7 @@
 import { createContext, createSignal, useContext } from "solid-js";
 import { createLocalSignal } from "../util/util";
 import useNewsResource from "./useNewsResource";
-import useNewsWebsocket from "./useWebsocket";
+import useNewsWebsocket from "./useNewsWebsocket";
 
 const NewsContext = createContext();
 
