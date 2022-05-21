@@ -1,4 +1,5 @@
 import { createContext, createSignal, useContext } from "solid-js";
+import { filterByPrimitiveMerger, uniqueByIdMerger } from "../util/merger";
 import { createLocalSignal } from "../util/util";
 import useNewsResource from "./useNewsResource";
 import useNewsWebsocket from "./useNewsWebsocket";
@@ -55,7 +56,6 @@ export function NewsProvider(props) {
       channel: "REDDIT",
       subChannels: subreddits,
     });
-
     setSubreddits(filterByPrimitiveMerger(subreddits));
     reloadNews();
   }
@@ -78,19 +78,4 @@ export function NewsProvider(props) {
   return (
     <NewsContext.Provider value={store}>{props.children}</NewsContext.Provider>
   );
-}
-
-function filterByPrimitiveMerger(valuesToFilter) {
-  return (values) =>
-    values.filter((value) => !valuesToFilter.includes(value));
-}
-
-function uniqueByIdMerger(newItems) {
-  return (array) => {
-    return array.concat(
-      newItems.filter((n) => {
-        return !array.find((a) => a.id === n.id);
-      })
-    );
-  };
 }
