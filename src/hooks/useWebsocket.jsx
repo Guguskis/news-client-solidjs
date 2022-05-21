@@ -1,7 +1,7 @@
 import { createEffect, createSignal } from "solid-js";
 import Stomp from "stompjs";
 
-function useRedditWebsocket(onConnect, onMessage) {
+function useNewsWebsocket(onConnect, onMessage) {
   const [connected, setConnected] = createSignal(false);
   const [websocket] = createSignal(
     Stomp.client("ws://86.100.240.140:9081/news/websocket")
@@ -25,11 +25,11 @@ function useRedditWebsocket(onConnect, onMessage) {
     onMessage(body);
   }
 
-  function send(message) {
-    websocket().send("/app/queue/news/reddit", {}, JSON.stringify(message));
+  function send(message) { // todo add channel
+    websocket().send("/app/queue/news", {}, JSON.stringify(message));
   }
 
   return { websocket, send };
 }
 
-export default useRedditWebsocket;
+export default useNewsWebsocket;

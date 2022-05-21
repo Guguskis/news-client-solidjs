@@ -1,12 +1,7 @@
-import {
-  createContext,
-  createEffect,
-  createResource,
-  createSignal,
-  useContext
-} from "solid-js";
+import { createContext, createSignal, useContext } from "solid-js";
 import { createLocalSignal } from "../util/util";
-import useRedditWebsocket from "./useWebsocket";
+import useNewsResource from "./useNewsResource";
+import useNewsWebsocket from "./useWebsocket";
 
 const NewsContext = createContext();
 
@@ -16,67 +11,53 @@ export function useNews() {
 
 export function NewsProvider(props) {
   const [news, setNews] = createSignal([]);
-  const [loading, setLoading] = createSignal(false);
-  const [nextPageToken, setNextPageToken] = createSignal(0);
   const [subreddits, setSubreddits] = createLocalSignal("subreddits", []);
 
-  const [response, { refetch }] = createResource(async () => {
-    if (nextPageToken() === null) return;
+  const { loading: loadingNews, loadMore: loadMoreNews } = useNewsResource(
+    subreddits,
+    onNewsResourceResponse
+  );
 
-    setLoading(true);
-    const url = new URL(`http://86.100.240.140:9081/api/news`);
+  const { send: sendSubscription } = useNewsWebsocket(
+    onConnect,
+    onRedditMessage
+  );
 
-    url.searchParams.set("pageToken", nextPageToken());
-    url.searchParams.set("subChannels", subreddits().join(","));
-    url.searchParams.set("pageSize", 20);
-
-    const response = await fetch(url);
-    return await response.json();
-  });
-
-  const { send: sendReddit } = useRedditWebsocket(onConnect, onMessage);
-
-  createEffect(() => {
-    if (response()) {
-      setNews(uniqueByIdMerger(response().news));
-      setNextPageToken(response().nextPageToken);
-      setLoading(false);
-    }
-  });
+  function onNewsResourceResponse(news) {
+    setNews(uniqueByIdMerger(news));
+  }
 
   function onConnect() {
-    sendReddit({
+    sendSubscription({
       action: "SET",
-      subreddits: subreddits(),
+      channel: "REDDIT",
+      subChannels: subreddits(),
     });
   }
 
-  function loadMore() {
-    if (loading()) return;
-    refetch();
-  }
-
-  function onMessage(newsItem) {
+  function onRedditMessage(newsItem) {
     setNews((news) => [newsItem, ...news]);
   }
 
   function subscribeSubreddits(subredditsToSubscribe) {
     // todo validate if subreddit exists
 
-    sendReddit({
+    sendSubscription({
       action: "SUBSCRIBE",
-      subreddits: subredditsToSubscribe,
+      channel: "REDDIT",
+      subChannels: subredditsToSubscribe,
     });
 
     setSubreddits([...subredditsToSubscribe, ...subreddits()]);
   }
 
   function unsubscribeSubreddits(subredditsToUnsubscribe) {
-    sendReddit(message = {
+    sendSubscription({
       action: "UNSUBSCRIBE",
-      subreddits: subredditsToUnsubscribe,
+      channel: "REDDIT",
+      subChannels: subredditsToUnsubscribe,
     });
-    
+
     setSubreddits((subreddits) =>
       subreddits.filter(
         (subreddit) => !subredditsToUnsubscribe.includes(subreddit)
@@ -86,8 +67,8 @@ export function NewsProvider(props) {
 
   const store = [
     news,
-    loading,
-    loadMore,
+    loadingNews,
+    loadMoreNews,
     subscribeSubreddits,
     unsubscribeSubreddits,
     subreddits,
