@@ -46,21 +46,17 @@ export function NewsProvider(props) {
     });
 
     setSubreddits([...subredditsSub, ...subreddits()]);
-
     reloadNews();
   }
 
-  function unsubscribeReddit(subredditsUnsub) {
+  function unsubscribeReddit(subreddits) {
     sendMessage({
       action: "UNSUBSCRIBE",
       channel: "REDDIT",
-      subChannels: subredditsUnsub,
+      subChannels: subreddits,
     });
 
-    setSubreddits((subreddits) =>
-      subreddits.filter((subreddit) => !subredditsUnsub.includes(subreddit))
-    );
-
+    setSubreddits(filterByPrimitiveMerger(subreddits));
     reloadNews();
   }
 
@@ -82,6 +78,11 @@ export function NewsProvider(props) {
   return (
     <NewsContext.Provider value={store}>{props.children}</NewsContext.Provider>
   );
+}
+
+function filterByPrimitiveMerger(valuesToFilter) {
+  return (values) =>
+    values.filter((value) => !valuesToFilter.includes(value));
 }
 
 function uniqueByIdMerger(newItems) {
