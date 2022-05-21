@@ -25,11 +25,11 @@ function useNewsWebsocket(onConnect, onMessage) {
     onMessage(body);
   }
 
-  function send(message) {
+  function sendMessage(message) {
     websocket().send("/app/queue/news", {}, JSON.stringify(message));
   }
 
-  return { websocket, send };
+  return { sendMessage };
 }
 
 export default useNewsWebsocket;

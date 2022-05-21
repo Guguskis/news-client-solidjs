@@ -18,7 +18,7 @@ export function NewsProvider(props) {
     onNewsResourceResponse
   );
 
-  const { send: sendSubscription } = useNewsWebsocket(
+  const { sendMessage } = useNewsWebsocket(
     onConnect,
     onRedditMessage
   );
@@ -28,8 +28,8 @@ export function NewsProvider(props) {
   }
 
   function onConnect() {
-    sendSubscription({
-      action: "SET",
+    sendMessage({
+      action: "SUBSCRIBE",
       channel: "REDDIT",
       subChannels: subreddits(),
     });
@@ -42,7 +42,7 @@ export function NewsProvider(props) {
   function subscribeSubreddits(subredditsToSubscribe) {
     // todo validate if subreddit exists
 
-    sendSubscription({
+    sendMessage({
       action: "SUBSCRIBE",
       channel: "REDDIT",
       subChannels: subredditsToSubscribe,
@@ -52,7 +52,7 @@ export function NewsProvider(props) {
   }
 
   function unsubscribeSubreddits(subredditsToUnsubscribe) {
-    sendSubscription({
+    sendMessage({
       action: "UNSUBSCRIBE",
       channel: "REDDIT",
       subChannels: subredditsToUnsubscribe,
