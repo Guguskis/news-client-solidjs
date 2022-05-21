@@ -12,14 +12,11 @@ import { useNews } from "../hooks/useNews";
 
 
 export function Subreddits() {
-  const [
-    news,
-    loading,
-    loadMore,
-    subscribeSubreddits,
-    unsubscribeSubreddits,
+  const {
+    subscribeReddit,
+    unsubscribeReddit,
     subreddits,
-  ] = useNews();
+  } = useNews();
 
   const [subredditInput, setSubredditInput] = createSignal("");
   const [subredditError, setSubredditError] = createSignal(null);
@@ -39,7 +36,7 @@ export function Subreddits() {
       return;
     }
 
-    subscribeSubreddits([subredditInput()]);
+    subscribeReddit([subredditInput()]);
 
     setSubredditError(null);
     setSubredditInput("");
@@ -52,7 +49,7 @@ export function Subreddits() {
   }
 
   function handleSubredditRemove(subreddit) {
-    unsubscribeSubreddits([subreddit]);
+    unsubscribeReddit([subreddit]);
   }
 
   return (

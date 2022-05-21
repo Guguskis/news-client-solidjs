@@ -65,14 +65,14 @@ export function NewsProvider(props) {
     );
   }
 
-  const store = [
+  const store = {
     news,
     loading,
     loadMore,
     subscribeReddit,
     unsubscribeReddit,
     subreddits,
-  ];
+  };
 
   return (
     <NewsContext.Provider value={store}>{props.children}</NewsContext.Provider>

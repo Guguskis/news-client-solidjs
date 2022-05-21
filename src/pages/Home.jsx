@@ -6,7 +6,7 @@ import { useNews } from "../hooks/useNews.jsx";
 import useScrollableComponent from "../hooks/useScrollableComponent.jsx";
 
 const Home = () => {
-  const [news, loading, loadMore] = useNews();
+  const { news, loading, loadMore } = useNews();
 
   const [scroll, ScrollTargetComponent] = useScrollableComponent();
   const scrolledRecently = true;
