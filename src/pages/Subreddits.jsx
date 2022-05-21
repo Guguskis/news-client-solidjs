@@ -51,6 +51,7 @@ export default function Subreddits() {
     <MenuBarContainer>
       <Grid item xs={12} md={6}>
         <TextField
+          // todo startAdornment "r/" (suid not yet implemented https://github.com/swordev/suid/blob/main/ROADMAP.md)
           sx={{ mb: 1 }}
           variant="outlined"
           label="Subreddit"
