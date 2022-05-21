@@ -21,13 +21,6 @@ function App() {
     <>
       <NewsProvider>
         <ThemeProvider theme={theme}>
-          {/* <StompSessionProvider
-        url={"ws://86.100.240.140:9081/news/websocket"}
-        debug={(str) => {
-          console.debug("NEWS: " + str);
-        }}
-      > */}
-          {/* <LocalizationProvider dateAdapter={DateAdapter}> */}
           <CssBaseline />
           <Routes>
             <Route path="/" element={<Home />} />
@@ -35,19 +28,6 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
           {/* <ToastContainer /> */}
-          {/* <Router> */}
-          {/* <Switch> */}
-          {/* <Route exact path="/" component={MainPage} /> */}
-          {/* <Route
-                exact
-                path="/subscriptions"
-                component={RedditSubscriptionForm}
-              /> */}
-          {/* <Route component={NotFoundPage}/> */}
-          {/* </Switch> */}
-          {/* </Router> */}
-          {/* </LocalizationProvider> */}
-          {/* </StompSessionProvider> */}
         </ThemeProvider>
       </NewsProvider>
     </>
