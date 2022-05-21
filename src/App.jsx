@@ -7,7 +7,7 @@ import theme from "./config/theme.jsx";
 import { NewsProvider } from "./hooks/useNews.jsx";
 import Home from "./pages/Home.jsx";
 import NotFound from "./pages/NotFound.jsx";
-import { Subreddits } from "./pages/Subreddits.jsx";
+import Subreddits from "./pages/Subreddits.jsx";
 
 TimeAgo.addDefaultLocale(en);
 

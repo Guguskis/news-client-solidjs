@@ -11,7 +11,7 @@ import MenuBarContainer from "../components/MenuBarContainer";
 import { useNews } from "../hooks/useNews";
 
 
-export function Subreddits() {
+export default function Subreddits() {
   const {
     subscribeReddit,
     unsubscribeReddit,
