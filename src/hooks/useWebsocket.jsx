@@ -17,7 +17,7 @@ function useNewsWebsocket(onConnect, onMessage) {
 
   function onWebsocketConnect() {
     setConnected(true);
-    onConnect(); // todo unsure if subreddits() gets stale if we load data from localStorage
+    onConnect();
   }
 
   function onWebsocketMessage(message) {
@@ -25,7 +25,7 @@ function useNewsWebsocket(onConnect, onMessage) {
     onMessage(body);
   }
 
-  function send(message) { // todo add channel
+  function send(message) {
     websocket().send("/app/queue/news", {}, JSON.stringify(message));
   }
 
