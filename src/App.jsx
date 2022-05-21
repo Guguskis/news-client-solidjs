@@ -6,6 +6,7 @@ import { Route, Routes } from "solid-app-router";
 import theme from "./config/theme.jsx";
 import { NewsProvider } from "./hooks/useNews.jsx";
 import Home from "./pages/Home.jsx";
+import NotFound from "./pages/NotFound.jsx";
 import { Subreddits } from "./pages/Subreddits.jsx";
 
 TimeAgo.addDefaultLocale(en);
@@ -20,7 +21,6 @@ function App() {
     <>
       <NewsProvider>
         <ThemeProvider theme={theme}>
-
           {/* <StompSessionProvider
         url={"ws://86.100.240.140:9081/news/websocket"}
         debug={(str) => {
@@ -32,6 +32,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/subreddits" element={<Subreddits />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
           {/* <ToastContainer /> */}
           {/* <Router> */}
