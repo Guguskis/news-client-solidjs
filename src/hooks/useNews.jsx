@@ -13,14 +13,14 @@ export function NewsProvider(props) {
   const [news, setNews] = createSignal([]);
   const [subreddits, setSubreddits] = createLocalSignal("subreddits", []);
 
-  const { loading: loadingNews, loadMore: loadMoreNews } = useNewsResource(
+  const { loading, loadMore } = useNewsResource(
     subreddits,
     onNewsResourceResponse
   );
 
   const { sendMessage } = useNewsWebsocket(
     onConnect,
-    onRedditMessage
+    onNewsMessage
   );
 
   function onNewsResourceResponse(news) {
@@ -35,42 +35,42 @@ export function NewsProvider(props) {
     });
   }
 
-  function onRedditMessage(newsItem) {
+  function onNewsMessage(newsItem) {
     setNews((news) => [newsItem, ...news]);
   }
 
-  function subscribeSubreddits(subredditsToSubscribe) {
+  function subscribeReddit(subredditsSub) {
     // todo validate if subreddit exists
 
     sendMessage({
       action: "SUBSCRIBE",
       channel: "REDDIT",
-      subChannels: subredditsToSubscribe,
+      subChannels: subredditsSub,
     });
 
-    setSubreddits([...subredditsToSubscribe, ...subreddits()]);
+    setSubreddits([...subredditsSub, ...subreddits()]);
   }
 
-  function unsubscribeSubreddits(subredditsToUnsubscribe) {
+  function unsubscribeReddit(subredditsUnsub) {
     sendMessage({
       action: "UNSUBSCRIBE",
       channel: "REDDIT",
-      subChannels: subredditsToUnsubscribe,
+      subChannels: subredditsUnsub,
     });
 
     setSubreddits((subreddits) =>
       subreddits.filter(
-        (subreddit) => !subredditsToUnsubscribe.includes(subreddit)
+        (subreddit) => !subredditsUnsub.includes(subreddit)
       )
     );
   }
 
   const store = [
     news,
-    loadingNews,
-    loadMoreNews,
-    subscribeSubreddits,
-    unsubscribeSubreddits,
+    loading,
+    loadMore,
+    subscribeReddit,
+    unsubscribeReddit,
     subreddits,
   ];
 
