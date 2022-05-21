@@ -1,5 +1,5 @@
 import LinearProgress from "@suid/material/LinearProgress";
-import { createEffect, For, onCleanup } from "solid-js";
+import { createEffect, createSignal, For, onCleanup } from "solid-js";
 import MenuBarContainer from "../components/MenuBarContainer.jsx";
 import NewsCard from "../components/NewsCard.jsx";
 import { useNews } from "../hooks/useNews.jsx";
@@ -9,7 +9,7 @@ const Home = () => {
   const { news, loading, loadMore } = useNews();
 
   const [scroll, ScrollTarget] = useScrollableTarget();
-  const scrolledRecently = true;
+  const [scrolledRecently] = createSignal(false);
   // const { scrolledRecently } = useScrollStopwatch({ seconds: 2 });
 
   function handleScroll(e) {
@@ -28,7 +28,8 @@ const Home = () => {
   });
 
   createEffect(() => {
-    if (!loading() && !scrolledRecently) {
+    if (!loading() && scrolledRecently()) {
+      // if (!loading() && untrack(() => !scrolledRecently())) {
       scroll();
     }
   });
