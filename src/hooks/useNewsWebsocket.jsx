@@ -4,7 +4,7 @@ import Stomp from "stompjs";
 function useNewsWebsocket(onConnect, onMessage) {
   const [connected, setConnected] = createSignal(false);
   const [websocket] = createSignal(
-    Stomp.client("ws://86.100.240.140:9081/news/websocket")
+    Stomp.client(`${import.meta.env.VITE_NEWS_SERVICE_WS_URL}/news/websocket`)
   );
 
   createEffect(() => {

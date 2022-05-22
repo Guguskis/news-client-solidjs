@@ -8,7 +8,7 @@ function useNewsResource(subChannels, onResponse) {
     if (nextPageToken() === null) return;
 
     setLoading(true);
-    const url = new URL(`http://86.100.240.140:9081/api/news`);
+    const url = new URL(`${import.meta.env.VITE_NEWS_SERVICE_API_URL}/api/news`);
 
     url.searchParams.set("pageToken", nextPageToken());
     url.searchParams.set("subChannels", subChannels().join(","));
