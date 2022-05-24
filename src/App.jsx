@@ -4,13 +4,13 @@ import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
 import { Route, Routes } from "solid-app-router";
 import { lazy } from "solid-js";
-import MenuBar from "./components/MenuBar.jsx";
 import theme from "./config/theme.jsx";
 import { NewsProvider } from "./hooks/useNews.jsx";
 
 const Home = lazy(() => import("./pages/Home.jsx"));
 const NotFound = lazy(() => import("./pages/NotFound.jsx"));
 const Subreddits = lazy(() => import("./pages/Subreddits.jsx"));
+const MenuBar = lazy(() => import("./components/MenuBar.jsx"));
 
 TimeAgo.addDefaultLocale(en);
 
