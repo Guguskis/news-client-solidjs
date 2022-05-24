@@ -4,19 +4,7 @@ export function useNewsResource(subChannels, onResponse) {
   const [nextPageToken, setNextPageToken] = createSignal(0);
   const [loading, setLoading] = createSignal(false);
 
-  const [response, { refetch }] = createResource(async () => {
-    if (nextPageToken() === null) return;
-
-    setLoading(true);
-    const url = new URL(`${import.meta.env.VITE_NEWS_SERVICE_API_URL}/api/news`);
-
-    url.searchParams.set("pageToken", nextPageToken());
-    url.searchParams.set("subChannels", subChannels().join(","));
-    url.searchParams.set("pageSize", 20);
-
-    const response = await fetch(url);
-    return await response.json();
-  });
+  const [response, { refetch }] = createResource(fetchUser);
 
   createEffect(() => {
     if (response()) {
@@ -25,6 +13,22 @@ export function useNewsResource(subChannels, onResponse) {
       setLoading(false);
     }
   });
+
+  async function fetchUser() {
+    if (nextPageToken() === null) return;
+
+    setLoading(true);
+    const url = new URL(
+      `${import.meta.env.VITE_NEWS_SERVICE_API_URL}/api/news`
+    );
+
+    url.searchParams.set("pageToken", nextPageToken());
+    url.searchParams.set("subChannels", subChannels().join(","));
+    url.searchParams.set("pageSize", 20);
+
+    const response = await fetch(url);
+    return await response.json();
+  }
 
   function loadMore() {
     if (loading()) return;
