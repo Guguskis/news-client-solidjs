@@ -1,5 +1,6 @@
 import AddCircleIcon from "@suid/icons-material/AddCircle";
 import DeleteIcon from "@suid/icons-material/Delete";
+import Container from "@suid/material/Container";
 import Grid from "@suid/material/Grid";
 import IconButton from "@suid/material/IconButton";
 import List from "@suid/material/List";
@@ -7,7 +8,6 @@ import ListItem from "@suid/material/ListItem";
 import ListItemText from "@suid/material/ListItemText";
 import TextField from "@suid/material/TextField";
 import { createSignal } from "solid-js";
-import MenuBarContainer from "../components/MenuBarContainer";
 import { useNews } from "../hooks/useNews";
 
 export default function Subreddits() {
@@ -48,7 +48,7 @@ export default function Subreddits() {
   }
 
   return (
-    <MenuBarContainer>
+    <Container>
       <Grid item xs={12} md={6}>
         <TextField
           // todo startAdornment "r/" (suid not yet implemented https://github.com/swordev/suid/blob/main/ROADMAP.md)
@@ -86,7 +86,7 @@ export default function Subreddits() {
           ))}
         </List>
       </Grid>
-    </MenuBarContainer>
+    </Container>
   );
 }
 

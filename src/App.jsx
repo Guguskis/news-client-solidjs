@@ -4,6 +4,7 @@ import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
 import { Route, Routes } from "solid-app-router";
 import { lazy } from "solid-js";
+import MenuBar from "./components/MenuBar.jsx";
 import theme from "./config/theme.jsx";
 import { NewsProvider } from "./hooks/useNews.jsx";
 
@@ -24,6 +25,7 @@ function App() {
       <NewsProvider>
         <ThemeProvider theme={theme}>
           <CssBaseline />
+          <MenuBar hideOnScroll={true}/>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/subreddits" element={<Subreddits />} />

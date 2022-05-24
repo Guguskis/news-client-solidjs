@@ -73,10 +73,12 @@ function MenuBar(props) {
   }
 
   function navigateHome() {
+    setOpen(false);
     navigate("/");
   }
 
   function navigateSubreddits() {
+    setOpen(false);
     navigate("/subreddits");
   }
 
