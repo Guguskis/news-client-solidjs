@@ -2,7 +2,7 @@ import Card from "@suid/material/Card";
 import CardContent from "@suid/material/CardContent";
 import Link from "@suid/material/Link";
 import Typography from "@suid/material/Typography";
-import useTimeAgo from "../hooks/useTimeAgo";
+import { useTimeAgo } from "../hooks/useTimeAgo";
 
 const NewsCard = ({ news, sx }) => {
   const timeAgo = useTimeAgo({ date: news.created });

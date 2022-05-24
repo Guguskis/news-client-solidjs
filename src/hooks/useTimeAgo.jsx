@@ -2,7 +2,7 @@ import DefaultTimeAgo from "javascript-time-ago";
 import { createSignal, onCleanup } from "solid-js";
 import { createAnimationLoop } from "../util/util";
 
-function useTimeAgo({ date }) {
+export function useTimeAgo({ date }) {
   const timeAgo = new DefaultTimeAgo();
   
   const [message, setMessage] = createSignal(formatMessage());
@@ -15,5 +15,3 @@ function useTimeAgo({ date }) {
     return timeAgo.format(Date.parse(date));
   }
 }
-
-export default useTimeAgo;

@@ -1,7 +1,7 @@
 import { createEffect, createSignal } from "solid-js";
 import Stomp from "stompjs";
 
-function useNewsWebsocket(onConnect, onMessage) {
+export function useNewsWebsocket(onConnect, onMessage) {
   const [connected, setConnected] = createSignal(false);
   const [websocket] = createSignal(
     Stomp.client(`${import.meta.env.VITE_NEWS_SERVICE_WS_URL}/news/websocket`)
@@ -31,5 +31,3 @@ function useNewsWebsocket(onConnect, onMessage) {
 
   return { sendMessage };
 }
-
-export default useNewsWebsocket;

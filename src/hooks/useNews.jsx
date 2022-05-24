@@ -1,8 +1,8 @@
 import { createContext, createSignal, useContext } from "solid-js";
 import { filterByPrimitiveMerger, uniqueByIdMerger } from "../util/merger";
 import { createLocalSignal } from "../util/util";
-import useNewsResource from "./useNewsResource";
-import useNewsWebsocket from "./useNewsWebsocket";
+import { useNewsResource } from "./useNewsResource";
+import { useNewsWebsocket } from "./useNewsWebsocket";
 
 const NewsContext = createContext();
 

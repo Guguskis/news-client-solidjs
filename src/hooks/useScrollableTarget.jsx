@@ -1,4 +1,4 @@
-const useScrollableTarget = () => {
+export function useScrollableTarget() {
     let scrollTargetRef;
 
     const scroll = () => {
@@ -8,6 +8,4 @@ const useScrollableTarget = () => {
     const TargetComponent = () => <div ref={scrollTargetRef} />;
 
     return [scroll, TargetComponent];
-};
-
-export default useScrollableTarget;
+}

@@ -1,6 +1,6 @@
 import { createEffect, createSignal, onCleanup, untrack } from "solid-js";
 
-function useScrollStopwatch({ seconds }) {
+export function useScrollStopwatch({ seconds }) {
   const [scrolledRecently, setScrolledRecently] = createSignal(false);
   const [timeoutCallback, setTimeoutCallback] = createSignal(null);
 
@@ -34,5 +34,3 @@ function useScrollStopwatch({ seconds }) {
 
   return { scrolledRecently };
 }
-
-export default useScrollStopwatch;

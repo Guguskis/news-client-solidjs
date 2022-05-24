@@ -3,7 +3,7 @@ import { createEffect, createSignal, For, onCleanup } from "solid-js";
 import MenuBarContainer from "../components/MenuBarContainer.jsx";
 import NewsCard from "../components/NewsCard.jsx";
 import { useNews } from "../hooks/useNews.jsx";
-import useScrollableTarget from "../hooks/useScrollableTarget.jsx";
+import { useScrollableTarget } from "../hooks/useScrollableTarget.jsx";
 
 const Home = () => {
   const { news, loading, loadMore } = useNews();

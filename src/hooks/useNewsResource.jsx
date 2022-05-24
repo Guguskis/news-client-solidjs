@@ -1,6 +1,6 @@
 import { createEffect, createResource, createSignal } from "solid-js";
 
-function useNewsResource(subChannels, onResponse) {
+export function useNewsResource(subChannels, onResponse) {
   const [nextPageToken, setNextPageToken] = createSignal(0);
   const [loading, setLoading] = createSignal(false);
 
@@ -37,5 +37,3 @@ function useNewsResource(subChannels, onResponse) {
 
   return { loading, loadMore, resetQuery };
 }
-
-export default useNewsResource;

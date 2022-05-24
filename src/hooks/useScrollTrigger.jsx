@@ -1,6 +1,6 @@
 import { createEffect, createSignal, onCleanup } from "solid-js";
 
-function useScrollTrigger() {
+export function useScrollTrigger() {
   const [direction, setDirection] = createSignal();
   const [position, setPosition] = createSignal(0);
 
@@ -17,5 +17,3 @@ function useScrollTrigger() {
 
   return [direction, position];
 }
-
-export default useScrollTrigger;

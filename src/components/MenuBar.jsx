@@ -18,7 +18,7 @@ import Toolbar from "@suid/material/Toolbar";
 import styled from "@suid/system/styled";
 import { useNavigate } from "solid-app-router";
 import { createEffect, createSignal, mergeProps } from "solid-js";
-import useScrollTrigger from "../hooks/useScrollTrigger";
+import { useScrollTrigger } from "../hooks/useScrollTrigger";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
