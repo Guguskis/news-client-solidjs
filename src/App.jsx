@@ -25,7 +25,7 @@ function App() {
       <NewsProvider>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <MenuBar hideOnScroll={true}/>
+          <MenuBar hideOnScroll={true} />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/subreddits" element={<Subreddits />} />

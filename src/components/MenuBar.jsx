@@ -38,7 +38,7 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
   },
 }));
 
-function HideOnScroll(props) {
+function HideOnScroll({ enabled, children }) {
   const [direction] = useScrollTrigger();
   const [visible, setVisible] = createSignal(true);
 
@@ -50,16 +50,16 @@ function HideOnScroll(props) {
     }
   });
 
-  return props.enabled ? (
+  return enabled ? (
     <Slide appear={false} direction="down" in={visible()}>
-      {props.children}
+      {children}
     </Slide>
   ) : (
-    props.children
+    children
   );
 }
 
-function MenuBar(props) {
+function MenuBar({ hideOnScroll }) {
   const [open, setOpen] = createSignal(false);
   const navigate = useNavigate();
   const theme = useTheme();
@@ -84,7 +84,7 @@ function MenuBar(props) {
 
   return (
     <Container maxWidth="false" sx={{ pb: 10 }}>
-      <HideOnScroll enabled={props.hideOnScroll}>
+      <HideOnScroll enabled={hideOnScroll}>
         <AppBar position="fixed" color="background" open={open()}>
           <Toolbar>
             <IconButton
