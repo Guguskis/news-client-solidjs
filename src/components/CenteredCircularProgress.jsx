@@ -1,7 +1,7 @@
 import CircularProgress from "@suid/material/CircularProgress";
 import Grid from "@suid/material/Grid";
 
-function CenteredCircularProgress() {
+export default function CenteredCircularProgress() {
   return (
     <Grid
       container
@@ -16,5 +16,3 @@ function CenteredCircularProgress() {
     </Grid>
   );
 }
-
-export default CenteredCircularProgress;

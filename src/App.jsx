@@ -1,35 +1,60 @@
+import CircularProgress from "@suid/material/CircularProgress";
 import { Route, Routes } from "solid-app-router";
 import { ErrorBoundary, lazy, Suspense } from "solid-js";
-import CenteredCircularProgress from "./components/CenteredCircularProgress.jsx";
+import CenteredCircularProgress from "./components/CenteredCircularProgress";
 import Providers from "./config/providers.jsx";
-import Dataset from "./pages/Dataset.jsx";
-import Error from "./pages/Error.jsx";
 
 const Home = lazy(() => import("./pages/Home.jsx"));
 const NotFound = lazy(() => import("./pages/NotFound.jsx"));
 const Subreddits = lazy(() => import("./pages/Subreddits.jsx"));
+const Dataset = lazy(() => import("./pages/Dataset.jsx"));
 const MenuBar = lazy(() => import("./components/MenuBar.jsx"));
 
 function SuspendedPage({ page }) {
-  return <Suspense fallback={<CenteredCircularProgress />}>{page}</Suspense>;
+  return <Suspense fallback={<CircularProgress />}>{page}</Suspense>;
 }
 
 function App() {
+
+  const ErrorPage = () => (
+    <Suspense fallback={<CenteredCircularProgress />}>
+      <Error />
+    </Suspense>
+  );
+  const HomePage = () => (
+    <Suspense fallback={<CenteredCircularProgress />}>
+      <Home />
+    </Suspense>
+  );
+  const SubredditsPage = () => (
+    <Suspense fallback={<CenteredCircularProgress />}>
+      <Subreddits />
+    </Suspense>
+  );
+  const DatasetPage = () => (
+    <Suspense fallback={<CenteredCircularProgress />}>
+      <Dataset />
+    </Suspense>
+  );
+  const NotFoundPage = () => (
+    <Suspense fallback={<CenteredCircularProgress />}>
+      <NotFound />
+    </Suspense>
+  );
+
+
   return (
     <Providers>
       <MenuBar hideOnScroll={true} />
-      <ErrorBoundary fallback={<SuspendedPage page={<Error />} />}>
+      <ErrorBoundary fallback={<ErrorPage/>}>
         <Routes>
-          <Route path="/" element={<SuspendedPage page={<Home />} />} />
-          <Route
-            path="/subreddits"
-            element={<SuspendedPage page={<Subreddits />} />}
-          />
+          <Route path="/" element={<HomePage/>} />
+          <Route path="/subreddits" element={<SubredditsPage />} />
           <Route
             path="/dataset"
-            element={<SuspendedPage page={<Dataset />} />}
+            element={<DatasetPage/>}
           />
-          <Route path="*" element={<SuspendedPage page={<NotFound />} />} />
+          <Route path="*" element={<NotFoundPage/>} />
         </Routes>
       </ErrorBoundary>
     </Providers>

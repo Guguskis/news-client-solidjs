@@ -9,20 +9,11 @@ import TableContainer from "@suid/material/TableContainer";
 import TableHead from "@suid/material/TableHead";
 import TableRow from "@suid/material/TableRow";
 import Typography from "@suid/material/Typography";
-import styled from "@suid/system/styled";
 import { createEffect } from "solid-js";
+import { StyledTableCell } from "../components/DatasetStyled";
 import { useNews } from "../hooks/useNews";
 import { uniqueByIdMerger } from "../util/merger";
 import { createLocalSignal } from "../util/util";
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  // whiteSpace: "nowrap",
-  // textOverflow: "ellipsis",
-  // width: "600px",
-  // display: "block",
-  overflow: "hidden",
-  whiteSpace: "nowrap",
-  maxWidth: theme.spacing(30),
-}));
 
 function enchanceDatasetRow(item) {
   return {
