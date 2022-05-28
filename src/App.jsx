@@ -15,7 +15,6 @@ function SuspendedPage({ page }) {
 }
 
 function App() {
-
   const ErrorPage = () => (
     <Suspense fallback={<CenteredCircularProgress />}>
       <Error />
@@ -42,19 +41,15 @@ function App() {
     </Suspense>
   );
 
-
   return (
     <Providers>
       <MenuBar hideOnScroll={true} />
-      <ErrorBoundary fallback={<ErrorPage/>}>
+      <ErrorBoundary fallback={<ErrorPage />}>
         <Routes>
-          <Route path="/" element={<HomePage/>} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/subreddits" element={<SubredditsPage />} />
-          <Route
-            path="/dataset"
-            element={<DatasetPage/>}
-          />
-          <Route path="*" element={<NotFoundPage/>} />
+          <Route path="/dataset" element={<DatasetPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </ErrorBoundary>
     </Providers>
