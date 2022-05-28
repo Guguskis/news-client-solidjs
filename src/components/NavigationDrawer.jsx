@@ -37,29 +37,25 @@ export default function NavigationDrawer({ open, onClose }) {
   const navigate = useNavigate();
   const theme = useTheme();
 
-  function handleDrawerClose() {
-    onClose();
-  }
-
   function navigateHome() {
-    handleDrawerClose();
+    onClose();
     navigate("/");
   }
 
   function navigateSubreddits() {
-    handleDrawerClose();
+    onClose();
     navigate("/subreddits");
   }
 
   function navigateDataset() {
-    handleDrawerClose();
+    onClose();
     navigate("/dataset");
   }
 
   return (
     <StyledDrawer variant="persistent" anchor="left" open={open()}>
       <DrawerHeader>
-        <IconButton onClick={handleDrawerClose}>
+        <IconButton onClick={onClose}>
           {theme.direction === "ltr" ? (
             <ChevronLeftIcon color="primary" />
           ) : (
