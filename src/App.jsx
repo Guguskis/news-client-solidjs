@@ -1,4 +1,3 @@
-import CircularProgress from "@suid/material/CircularProgress";
 import { Route, Routes } from "solid-app-router";
 import { ErrorBoundary, lazy, Suspense } from "solid-js";
 import CenteredCircularProgress from "./components/CenteredCircularProgress";
@@ -9,10 +8,6 @@ const NotFound = lazy(() => import("./pages/NotFound.jsx"));
 const Subreddits = lazy(() => import("./pages/Subreddits.jsx"));
 const Dataset = lazy(() => import("./pages/Dataset.jsx"));
 const MenuBar = lazy(() => import("./components/MenuBar.jsx"));
-
-function SuspendedPage({ page }) {
-  return <Suspense fallback={<CircularProgress />}>{page}</Suspense>;
-}
 
 function App() {
   const ErrorPage = () => (
