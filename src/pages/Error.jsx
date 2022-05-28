@@ -4,7 +4,7 @@ import Typography from "@suid/material/Typography";
 export default function Error() {
   return (
     <Container>
-      <Typography variant="h4">Error</Typography>
+      <Typography variant="h4">Something went wrong!</Typography>
     </Container>
   );
 }
