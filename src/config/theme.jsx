@@ -1,5 +1,4 @@
 import { createTheme } from "@suid/material";
-
 const theme = createTheme({
   palette: {
     type: "dark",
