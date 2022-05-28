@@ -10,50 +10,26 @@ const NotFound = lazy(() => import("./pages/NotFound.jsx"));
 const Subreddits = lazy(() => import("./pages/Subreddits.jsx"));
 const MenuBar = lazy(() => import("./components/MenuBar.jsx"));
 
+function SuspendedPage({ page }) {
+  return <Suspense fallback={<CenteredCircularProgress />}>{page}</Suspense>;
+}
+
 function App() {
   return (
     <Providers>
       <MenuBar hideOnScroll={true} />
-      <ErrorBoundary
-        fallback={
-          <Suspense fallback={<CenteredCircularProgress />}>
-            <Error />
-          </Suspense>
-        }
-      >
+      <ErrorBoundary fallback={<SuspendedPage page={<Error />} />}>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <Suspense fallback={<CenteredCircularProgress />}>
-                <Home />
-              </Suspense>
-            }
-          />
+          <Route path="/" element={<SuspendedPage page={<Home />} />} />
           <Route
             path="/subreddits"
-            element={
-              <Suspense fallback={<CenteredCircularProgress />}>
-                <Subreddits />
-              </Suspense>
-            }
+            element={<SuspendedPage page={<Subreddits />} />}
           />
           <Route
             path="/dataset"
-            element={
-              <Suspense fallback={<CenteredCircularProgress />}>
-                <Dataset />
-              </Suspense>
-            }
+            element={<SuspendedPage page={<Dataset />} />}
           />
-          <Route
-            path="*"
-            element={
-              <Suspense fallback={<CenteredCircularProgress />}>
-                <NotFound />
-              </Suspense>
-            }
-          />
+          <Route path="*" element={<SuspendedPage page={<NotFound />} />} />
         </Routes>
       </ErrorBoundary>
     </Providers>
