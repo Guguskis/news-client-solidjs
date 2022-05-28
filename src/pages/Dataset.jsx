@@ -11,6 +11,20 @@ import TableRow from "@suid/material/TableRow";
 import Typography from "@suid/material/Typography";
 import { createEffect } from "solid-js";
 import { useNews } from "../hooks/useNews";
+import { uniqueByIdMerger } from "../util/merger";
+import { createLocalSignal } from "../util/util";
+
+function TableHeader() {
+  return (
+    <TableHead>
+      <TableRow>
+        <TableCell>Subreddit</TableCell>
+        <TableCell>Title</TableCell>
+        <TableCell>Category</TableCell>
+      </TableRow>
+    </TableHead>
+  );
+}
 
 function NewsTableCell({ news }) {
   return (
@@ -18,9 +32,8 @@ function NewsTableCell({ news }) {
       <TableCell component="th" scope="row">
         r/{news.subChannel}
       </TableCell>
-      <TableCell align="right" sx={{ maxWidth: "100px" }}>
-        {news.title}
-      </TableCell>
+      <TableCell sx={{ maxWidth: "150px" }}>{news.title}</TableCell>
+      <TableCell>{news.category}</TableCell>
     </TableRow>
   );
 }
@@ -28,9 +41,19 @@ function NewsTableCell({ news }) {
 export default function Dataset() {
   const { news, loadMore } = useNews();
 
+  const [dataset, setDataset] = createLocalSignal("dataset", []);
+
   createEffect(() => {
     console.log(news());
+    setDataset(uniqueByIdMerger(news().map(enchanceDatasetRow)));
   });
+
+  function enchanceDatasetRow(item) {
+    return {
+      ...item,
+      category: "UNKNOWN",
+    };
+  }
 
   return (
     <Container>
@@ -41,15 +64,10 @@ export default function Dataset() {
         </Button>
       </Stack>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Subreddit</TableCell>
-              <TableCell align="right">Title</TableCell>
-            </TableRow>
-          </TableHead>
+        <Table sx={{ minWidth: 650 }} size="small">
+          <TableHeader />
           <TableBody>
-            {news().map((news) => (
+            {dataset().map((news) => (
               <NewsTableCell news={news} />
             ))}
           </TableBody>
