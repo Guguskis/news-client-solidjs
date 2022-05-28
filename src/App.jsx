@@ -7,6 +7,7 @@ import { lazy, Suspense } from "solid-js";
 import CenteredCircularProgress from "./components/CenteredCircularProgress.jsx";
 import theme from "./config/theme.jsx";
 import { NewsProvider } from "./hooks/useNews.jsx";
+import Dataset from "./pages/Dataset.jsx";
 
 const Home = lazy(() => import("./pages/Home.jsx"));
 const NotFound = lazy(() => import("./pages/NotFound.jsx"));
@@ -41,6 +42,14 @@ function App() {
               element={
                 <Suspense fallback={<CenteredCircularProgress />}>
                   <Subreddits />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/dataset"
+              element={
+                <Suspense fallback={<CenteredCircularProgress />}>
+                  <Dataset />
                 </Suspense>
               }
             />

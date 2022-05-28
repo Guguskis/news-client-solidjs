@@ -3,6 +3,7 @@ import ChevronRightIcon from "@suid/icons-material/ChevronRight";
 import DynamicFeedIcon from "@suid/icons-material/DynamicFeed";
 import FilterListIcon from "@suid/icons-material/FilterList";
 import MenuIcon from "@suid/icons-material/Menu";
+import ScienceIcon from "@suid/icons-material/Science";
 import AppBar from "@suid/material/AppBar";
 import Container from "@suid/material/Container";
 import Divider from "@suid/material/Divider";
@@ -12,6 +13,7 @@ import List from "@suid/material/List";
 import ListItem from "@suid/material/ListItem";
 import ListItemIcon from "@suid/material/ListItemIcon";
 import ListItemText from "@suid/material/ListItemText";
+import ListSubheader from "@suid/material/ListSubheader";
 import Slide from "@suid/material/Slide";
 import { useTheme } from "@suid/material/styles";
 import Toolbar from "@suid/material/Toolbar";
@@ -82,6 +84,11 @@ function MenuBar({ hideOnScroll }) {
     navigate("/subreddits");
   }
 
+  function navigateDataset() {
+    setOpen(false);
+    navigate("/dataset");
+  }
+
   return (
     <Container maxWidth="false" sx={{ pb: 10 }}>
       <HideOnScroll enabled={hideOnScroll}>
@@ -110,7 +117,7 @@ function MenuBar({ hideOnScroll }) {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
+        <List subheader={<ListSubheader component="div">News</ListSubheader>}>
           <ListItem button onClick={navigateHome}>
             <ListItemIcon>
               <DynamicFeedIcon color="primary" />
@@ -122,6 +129,15 @@ function MenuBar({ hideOnScroll }) {
               <FilterListIcon color="primary" />
             </ListItemIcon>
             <ListItemText primary="Subreddits" />
+          </ListItem>
+        </List>
+        <Divider />
+        <List subheader={<ListSubheader component="div">AI</ListSubheader>}>
+          <ListItem button onClick={navigateDataset}>
+            <ListItemIcon>
+              <ScienceIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Dataset" />
           </ListItem>
         </List>
       </StyledDrawer>
