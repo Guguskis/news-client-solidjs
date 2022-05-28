@@ -14,7 +14,6 @@ import { createEffect } from "solid-js";
 import { useNews } from "../hooks/useNews";
 import { uniqueByIdMerger } from "../util/merger";
 import { createLocalSignal } from "../util/util";
-
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   // whiteSpace: "nowrap",
   // textOverflow: "ellipsis",
@@ -62,7 +61,7 @@ function NewsTableRow({ news }) {
 }
 
 export default function Dataset() {
-  const { news, loadMore, resetQuery } = useNews();
+  const { news, loadMore, reloadNews } = useNews();
 
   const [dataset, setDataset] = createLocalSignal("dataset", []);
 
@@ -71,7 +70,7 @@ export default function Dataset() {
   });
 
   function clearDataset() {
-    resetQuery();
+    reloadNews();
     setDataset([]);
   }
 

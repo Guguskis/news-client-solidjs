@@ -73,7 +73,7 @@ export function NewsProvider(props) {
     subscribeReddit,
     unsubscribeReddit,
     subreddits,
-    resetQuery
+    reloadNews
   };
 
   return (
