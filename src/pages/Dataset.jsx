@@ -64,8 +64,8 @@ export default function Dataset() {
 
   return (
     <Container>
-      <Typography variant="h4">News dataset</Typography>
-      <Stack direction="row" spacing={1} sx={{ paddingBottom: 1, paddingTop: 1 }}>
+      <Typography variant="h3" gutterBottom >Dataset</Typography>
+      <Stack direction="row" spacing={1} sx={{ paddingBottom: 1}} >
         <Button component="p" variant="contained" onClick={loadMore}>
           Load more
         </Button>
