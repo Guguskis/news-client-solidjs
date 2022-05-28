@@ -3,11 +3,12 @@ import { ThemeProvider } from "@suid/material/styles";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
 import { Route, Routes } from "solid-app-router";
-import { lazy, Suspense } from "solid-js";
+import { ErrorBoundary, lazy, Suspense } from "solid-js";
 import CenteredCircularProgress from "./components/CenteredCircularProgress.jsx";
 import theme from "./config/theme.jsx";
 import { NewsProvider } from "./hooks/useNews.jsx";
 import Dataset from "./pages/Dataset.jsx";
+import Error from "./pages/Error.jsx";
 
 const Home = lazy(() => import("./pages/Home.jsx"));
 const NotFound = lazy(() => import("./pages/NotFound.jsx"));
@@ -23,11 +24,17 @@ TimeAgo.addDefaultLocale(en);
 
 function App() {
   return (
-    <>
-      <NewsProvider>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <MenuBar hideOnScroll={true} />
+    <NewsProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <MenuBar hideOnScroll={true} />
+        <ErrorBoundary
+          fallback={
+            <Suspense fallback={<CenteredCircularProgress />}>
+              <Error />
+            </Suspense>
+          }
+        >
           <Routes>
             <Route
               path="/"
@@ -63,9 +70,9 @@ function App() {
             />
           </Routes>
           {/* <ToastContainer /> */}
-        </ThemeProvider>
-      </NewsProvider>
-    </>
+        </ErrorBoundary>
+      </ThemeProvider>
+    </NewsProvider>
   );
 }
 
