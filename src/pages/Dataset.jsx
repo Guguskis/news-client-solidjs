@@ -14,6 +14,14 @@ import { useNews } from "../hooks/useNews";
 import { uniqueByIdMerger } from "../util/merger";
 import { createLocalSignal } from "../util/util";
 
+function enchanceDatasetRow(item) {
+  return {
+    ...item,
+    category: "UNKNOWN",
+    isPredictionCorrect: false,
+  };
+}
+
 function TableHeader() {
   return (
     <TableHead>
@@ -21,6 +29,7 @@ function TableHeader() {
         <TableCell>Subreddit</TableCell>
         <TableCell>Title</TableCell>
         <TableCell>Category</TableCell>
+        <TableCell>Prediction correct</TableCell>
       </TableRow>
     </TableHead>
   );
@@ -34,33 +43,34 @@ function NewsTableCell({ news }) {
       </TableCell>
       <TableCell sx={{ maxWidth: "150px" }}>{news.title}</TableCell>
       <TableCell>{news.category}</TableCell>
+      <TableCell>{news.isPredictionCorrect ? "Yes" : "No"}</TableCell>
     </TableRow>
   );
 }
 
 export default function Dataset() {
-  const { news, loadMore } = useNews();
+  const { news, loadMore, resetQuery } = useNews();
 
   const [dataset, setDataset] = createLocalSignal("dataset", []);
 
   createEffect(() => {
-    console.log(news());
     setDataset(uniqueByIdMerger(news().map(enchanceDatasetRow)));
   });
 
-  function enchanceDatasetRow(item) {
-    return {
-      ...item,
-      category: "UNKNOWN",
-    };
+  function clearDataset() {
+    resetQuery();
+    setDataset([]);
   }
 
   return (
     <Container>
       <Typography variant="h4">News dataset</Typography>
-      <Stack direction="row" sx={{ paddingBottom: 1, paddingTop: 1 }}>
+      <Stack direction="row" spacing={1} sx={{ paddingBottom: 1, paddingTop: 1 }}>
         <Button component="p" variant="contained" onClick={loadMore}>
           Load more
+        </Button>
+        <Button component="p" variant="contained" onClick={clearDataset}>
+          Clear
         </Button>
       </Stack>
       <TableContainer component={Paper}>
