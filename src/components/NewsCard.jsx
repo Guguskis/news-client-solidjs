@@ -1,8 +1,19 @@
+import RecommendIcon from "@suid/icons-material/Recommend";
 import Card from "@suid/material/Card";
 import CardContent from "@suid/material/CardContent";
 import Link from "@suid/material/Link";
 import Typography from "@suid/material/Typography";
 import { useTimeAgo } from "../hooks/useTimeAgo";
+
+function SentimentIcon({ sentiment }) {
+  if (!sentiment) {
+    return null;
+  } else if (sentiment.sentiment === "POSITIVE") {
+    return <RecommendIcon color="success" />;
+  } else if (sentiment.sentiment === "NEGATIVE") {
+    return <RecommendIcon color="error" sx={{ transform: "scaleY(-1)" }} />;
+  }
+}
 
 const NewsCard = ({ news, sx }) => {
   const timeAgo = useTimeAgo({ date: news.created });
@@ -25,6 +36,7 @@ const NewsCard = ({ news, sx }) => {
         <Typography variant="caption" sx={{ mb: 1.5 }} color="text.secondary">
           {timeAgo}
         </Typography>
+        <SentimentIcon sentiment={news.sentiment} />
       </CardContent>
     </Card>
   );
