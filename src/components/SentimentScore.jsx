@@ -42,7 +42,7 @@ export default function SentimentScore({ sentiment }) {
   }
 
   return (
-    <Stack direction="row" spacing={1}>
+    <Stack direction="row" spacing={0.5}>
       <Icon />
       <Score sx={{ paddingTop: 0.25, fontWeight: "bold" }} />
     </Stack>
