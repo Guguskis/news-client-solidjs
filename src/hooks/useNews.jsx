@@ -34,7 +34,21 @@ export function NewsProvider(props) {
   }
 
   function onNewsMessage(newsItem) {
-    setNews((news) => [newsItem, ...news]);
+    const exists = itemExistsById(news(), newsItem);
+    if (!exists) appendItem(setNews, newsItem);
+    else replaceItem(setNews, newsItem);
+  }
+
+  function itemExistsById(items, item) {
+    return items.filter((i) => i.id === item.id).length > 0;
+  }
+
+  function appendItem(setItems, item) {
+    setItems((items) => [item, ...items]);
+  }
+
+  function replaceItem(setItems, item) {
+    setItems((items) => items.map((i) => (i.id === item.id ? item : i)));
   }
 
   function subscribeReddit(subredditsSub) {
@@ -73,7 +87,7 @@ export function NewsProvider(props) {
     subscribeReddit,
     unsubscribeReddit,
     subreddits,
-    reloadNews
+    reloadNews,
   };
 
   return (
