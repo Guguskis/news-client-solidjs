@@ -27,7 +27,7 @@ export function NewsProvider(props) {
 
   function onConnect() {
     sendMessage({
-      action: "SUBSCRIBE",
+      actionType: "SUBSCRIBE",
       channel: "REDDIT",
       subChannels: subreddits(),
     });
